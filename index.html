@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Таблиця СИГНАЛIВ — БЛiК</title>
+<title>ТАБЛИЦЯ СИГНАЛІВ</title>
 <style>
   :root {
     --bg-color: #1e2024;
@@ -744,7 +744,7 @@
 
   .modal-card {
     width: 100%;
-    max-width: 480px;
+    max-width: 490px;
     padding: 22px;
     display: flex;
     flex-direction: column;
@@ -837,6 +837,15 @@
     gap: 10px;
     justify-content: flex-end;
     margin-top: 4px;
+  }
+
+  .hidden-file-input {
+    position: fixed;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
   }
 
   /* Toast */
@@ -933,8 +942,8 @@
       <button type="button" class="neu-btn" id="appKeyBtn" title="Встановити, змінити або зняти пароль на застосунок">🔑</button>
       <button type="button" class="neu-btn" id="appQuickLockBtn" style="display:none;" title="Заблокувати застосунок зараз">🔒</button>
       <button type="button" class="neu-btn" id="editModeBtn" title="Додавання, видалення, перейменування та захист блоків">📝 Редактор</button>
-      <button type="button" class="neu-btn" id="composerToggleBtn" title="Зібрати повідомлення з кількох кодів">✏️ Набір</button>
-      <button type="button" class="neu-btn" id="quizToggleBtn" title="Тренажер запам'ятовування сигналiв">🧠 Тест</button>
+      <button type="button" class="neu-btn" id="composerToggleBtn" title="Зібрати повідомлення з кількох сигналів">✏️ Набір</button>
+      <button type="button" class="neu-btn" id="quizToggleBtn" title="Тренажер запам'ятовування сигналів">🧠 Тест</button>
       <button type="button" class="neu-btn" id="themeModeBtn" title="Перемкнути світлу/темну тему">🌓 Тема</button>
       <button type="button" class="neu-btn" id="settingsToggleBtn">⚙️ Налаштування</button>
     </div>
@@ -965,7 +974,7 @@
   <!-- Тренажер (Тест знань) -->
   <section class="quiz-panel neu-extruded" id="quizPanel">
     <div class="quiz-top">
-      <strong style="color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.6px;">🧠 Тренажер сигналiв і кодів</strong>
+      <strong style="color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.6px;">🧠 Тренажер сигналів</strong>
       <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
         <span class="category-count neu-pressed" id="quizScore">Вірно: 0 / 0 | Серія: 0</span>
         <button type="button" class="neu-btn pill-btn" id="quizNextBtn">Наступний →</button>
@@ -1020,7 +1029,6 @@
         <button type="button" class="neu-btn" id="copyModeBtn">📋 Копіювати: Код — значення</button>
         <button type="button" class="neu-btn" id="exportJsonBtn">💾 Експорт (Файл / Буфер)</button>
         <button type="button" class="neu-btn" id="importJsonBtn">📂 Імпорт (Файл / Буфер)</button>
-        <input type="file" id="importFileInput" accept=".json,.txt" style="display:none;">
       </div>
       <button type="button" class="neu-btn" id="resetSettingsBtn">↺ Скинути тему</button>
     </div>
@@ -1037,6 +1045,9 @@
 
   <main class="categories-grid" id="categoriesGrid"></main>
 </div>
+
+<!-- Без атрибута accept, щоб Android не блокував .json файли сірим -->
+<input type="file" id="importFileInput" class="hidden-file-input">
 
 <!-- Універсальне модальне вікно -->
 <div class="modal-backdrop" id="modalBackdrop">
@@ -1311,6 +1322,86 @@
     return payload;
   }
 
+  // Надійне збереження файлу на Android, iOS і ПК
+  async function saveEncryptedFile(content, filename) {
+    // 1. Нативний діалог вибору папки (ПК Chrome/Edge)
+    if (window.showSaveFilePicker) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: filename,
+          types: [{ description: "Encrypted Signals JSON", accept: { "application/json": [".json"] } }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(content);
+        await writable.close();
+        return "saved";
+      } catch (err) {
+        if (err && err.name === "AbortError") return "cancelled";
+      }
+    }
+
+    // 2. Класичне завантаження через Blob (додаємо в DOM і відкладаємо revokeObjectURL на 60 сек)
+    try {
+      const blob = new Blob([content], { type: "application/octet-stream" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        if (a.parentNode) a.parentNode.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 60000);
+      return "downloaded";
+    } catch (_) {}
+
+    // 3. Резерв через Data URI
+    try {
+      const dataUrl = "data:application/octet-stream;charset=utf-8," + encodeURIComponent(content);
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = filename;
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        if (a.parentNode) a.parentNode.removeChild(a);
+      }, 5000);
+      return "downloaded";
+    } catch (_) {
+      return "failed";
+    }
+  }
+
+  async function shareEncryptedFile(content, filename) {
+    if (navigator.share) {
+      try {
+        const jsonFile = new File([content], filename, { type: "text/plain" });
+        if (navigator.canShare && navigator.canShare({ files: [jsonFile] })) {
+          await navigator.share({
+            files: [jsonFile],
+            title: "БЛiК — Зашифровані сигнали"
+          });
+          return "shared";
+        }
+      } catch (err) {
+        if (err && err.name === "AbortError") return "cancelled";
+      }
+      try {
+        await navigator.share({
+          title: "БЛiК — Зашифровані сигнали",
+          text: content
+        });
+        return "shared";
+      } catch (err) {
+        if (err && err.name === "AbortError") return "cancelled";
+      }
+    }
+    return "unsupported";
+  }
+
   // ==========================================
   // Дані та стан
   // ==========================================
@@ -1579,7 +1670,7 @@
       document.execCommand("copy");
       ok();
     } catch (_) {
-      showToast("Не вдалося скопіювати");
+      showToast("Не удалось скопировать");
     }
     document.body.removeChild(ta);
   }
@@ -2191,10 +2282,13 @@
     modalBody.appendChild(
       makePasswordField("expKeyInput", "Ключ шифрування (необов'язково)", "Порожньо = використовується вбудований ключ")
     );
-    modalHint.textContent = "За замовчуванням використовується вшитий ключ блоку. Вкажіть свій ключ, якщо хочете закрити конкретний файл індивідуально.";
+    modalHint.textContent = "За замовчуванням використовується вшитий ключ блоку. На телефоні, якщо файл не завантажився автоматично, натисніть «Поділитися / Зберегти» або скопіюйте в буфер.";
+
+    const canShare = Boolean(navigator.share);
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
-      <button type="button" class="neu-btn" id="mExpClip">📋 У буфер обміну</button>
+      <button type="button" class="neu-btn" id="mCancel">Закрити</button>
+      <button type="button" class="neu-btn" id="mExpClip">📋 В буфер</button>
+      ${canShare ? '<button type="button" class="neu-btn" id="mExpShare">📤 Поділитися / Зберегти</button>' : ''}
       <button type="button" class="neu-btn success-btn" id="mExpFile">💾 Завантажити .json</button>
     `;
     modalBackdrop.classList.add("open");
@@ -2208,16 +2302,34 @@
       closeModal();
     };
 
-    document.getElementById("mExpFile").onclick = () => {
+    if (canShare) {
+      document.getElementById("mExpShare").onclick = async () => {
+        const encryptedStr = buildEncryptedExportString(keyInp.value);
+        const res = await shareEncryptedFile(encryptedStr, "blik_signals_encrypted.json");
+        if (res === "shared") {
+          closeModal();
+          showToast("Файл передано");
+        } else if (res === "unsupported") {
+          modalHint.textContent = "✕ Системне меню поширення не підтримується. Використайте «В буфер».";
+          modalHint.className = "modal-hint err";
+        }
+      };
+    }
+
+    document.getElementById("mExpFile").onclick = async () => {
       const encryptedStr = buildEncryptedExportString(keyInp.value);
-      const blob = new Blob([encryptedStr], { type: "application/json" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "blik_signals_encrypted.json";
-      a.click();
-      URL.revokeObjectURL(a.href);
-      closeModal();
-      showToast("Зашифрований файл збережено");
+      const res = await saveEncryptedFile(encryptedStr, "blik_signals_encrypted.json");
+      if (res === "saved") {
+        closeModal();
+        showToast("Зашифрований файл збережено");
+      } else if (res === "downloaded") {
+        modalHint.textContent = "✓ Завантаження запущено (перевірте папку «Завантаження» / Downloads). Якщо браузер блокує файли — натисніть «Поділитися» або «В буфер».";
+        modalHint.className = "modal-hint ok";
+        showToast("Файл передано на завантаження");
+      } else if (res === "failed") {
+        modalHint.textContent = "✕ Браузер заблокував завантаження файлу. Натисніть «В буфер» або «Поділитися».";
+        modalHint.className = "modal-hint err";
+      }
     };
   }
 
@@ -2255,14 +2367,14 @@
         <label for="impPasteBox">Дані з буфера обміну або файлу</label>
         <button type="button" class="neu-btn" id="mPasteFromClip" style="padding:4px 9px; font-size:0.78em;">📋 Вставити з буфера</button>
       </div>
-      <textarea id="impPasteBox" class="modal-input neu-pressed" rows="4" placeholder='Вставте зашифрований JSON-текст або виберіть .json файл нижче...'></textarea>
+      <textarea id="impPasteBox" class="modal-input neu-pressed" rows="4" placeholder='Вставте зашифрований JSON-текст або виберіть файл нижче...'></textarea>
     `;
     modalBody.appendChild(pasteWrap);
 
     modalHint.textContent = "";
     modalActions.innerHTML = `
       <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
-      <button type="button" class="neu-btn" id="mPickFile">📂 Вибрати файл .json</button>
+      <button type="button" class="neu-btn" id="mPickFile">📂 Вибрати файл</button>
       <button type="button" class="neu-btn success-btn" id="mRunImport">✓ Імпортувати</button>
     `;
     modalBackdrop.classList.add("open");
@@ -2272,7 +2384,7 @@
 
     const tryImportText = raw => {
       if (!raw.trim()) {
-        modalHint.textContent = "✕ Вставте текст із буфера або виберіть .json файл";
+        modalHint.textContent = "✕ Вставте текст із буфера або виберіть файл";
         modalHint.className = "modal-hint err";
         return;
       }
@@ -2314,11 +2426,18 @@
       if (!file) return;
       const reader = new FileReader();
       reader.onload = ev => tryImportText(String(ev.target.result || ""));
+      reader.onerror = () => {
+        modalHint.textContent = "✕ Не вдалося прочитати вибраний файл";
+        modalHint.className = "modal-hint err";
+      };
       reader.readAsText(file);
       e.target.value = "";
     };
 
-    document.getElementById("mPickFile").onclick = () => fileInput.click();
+    document.getElementById("mPickFile").onclick = () => {
+      fileInput.value = "";
+      fileInput.click();
+    };
   }
 
   function openConfirmModal(title, message, confirmLabel, onConfirm) {
