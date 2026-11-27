@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ТАБЛИЦА СИГНАЛОВ</title>
+<title>Таблиця позивних і кодів — БЛiК</title>
 <style>
   :root {
     --bg-color: #1e2024;
@@ -81,6 +81,11 @@
     transition: all 0.15s ease;
     user-select: none;
     white-space: nowrap;
+    outline: none;
+  }
+
+  .neu-btn:focus-visible {
+    border-color: var(--accent-color);
   }
 
   .neu-btn:hover {
@@ -107,7 +112,7 @@
     border-color: rgba(245, 158, 11, 0.35);
   }
 
-  /* App Master Lock Screen */
+  /* Екран блокування всього застосунку */
   .app-lock-screen {
     display: none;
     min-height: calc(100vh - 76px);
@@ -887,153 +892,153 @@
 </head>
 <body>
 
-<!-- Экран блокировки всего приложения -->
+<!-- Екран блокування всього застосунку -->
 <div class="app-lock-screen" id="appLockScreen">
   <div class="app-lock-card neu-extruded">
     <div class="app-lock-icon">🔑</div>
-    <div class="app-lock-title">Доступ ограничен</div>
-    <div class="app-lock-sub">Введите пароль приложения для просмотра сигналов</div>
+    <div class="app-lock-title">Доступ обмежено</div>
+    <div class="app-lock-sub">Введіть пароль застосунку для перегляду сигналів</div>
 
     <div class="modal-field">
       <div class="pass-wrap">
-        <input type="password" id="appUnlockInput" class="modal-input neu-pressed" placeholder="Введите пароль..." autocomplete="current-password">
-        <button type="button" class="pass-eye" id="appUnlockEye" title="Показать/скрыть">👁️</button>
+        <input type="password" id="appUnlockInput" class="modal-input neu-pressed" placeholder="Введіть пароль..." autocomplete="current-password">
+        <button type="button" class="pass-eye" id="appUnlockEye" title="Показати/приховати">👁️</button>
       </div>
     </div>
 
     <div class="modal-hint" id="appUnlockHint"></div>
 
     <button type="button" class="neu-btn success-btn" id="appUnlockSubmit" style="justify-content:center; padding:11px 18px;">
-      🔓 Разблокировать приложение
+      🔓 Розблокувати застосунок
     </button>
 
-    <button type="button" class="app-lock-reset" id="appLockResetBtn">Сбросить пароль и данные (если забыли пароль)</button>
+    <button type="button" class="app-lock-reset" id="appLockResetBtn">Скинути пароль і дані (якщо забули пароль)</button>
   </div>
 </div>
 
-<!-- Основной контейнер приложения -->
+<!-- Основний контейнер застосунку -->
 <div class="container" id="appContainer">
   <header class="neu-extruded">
-    <div class="sig-badge neu-pressed" id="sigBadge" title="Нажмите, чтобы изменить СИГНАЛ">
+    <div class="sig-badge neu-pressed" id="sigBadge" title="Натисніть, щоб змінити СИГНАЛ">
       <span id="sigText">СИГ: 47 &nbsp;|&nbsp; 160</span>
       <small>✎</small>
     </div>
 
     <div class="search-box neu-pressed">
-      <input type="text" id="searchInput" class="search-input" placeholder="Поиск по коду, слову или значению ( / )...">
-      <button type="button" class="search-clear" id="searchClearBtn" title="Очистить">✕</button>
+      <input type="text" id="searchInput" class="search-input" placeholder="Пошук за кодом або значенням...">
+      <button type="button" class="search-clear" id="searchClearBtn" title="Очистити">✕</button>
     </div>
 
     <div class="header-actions">
-      <button type="button" class="neu-btn" id="appKeyBtn" title="Установить, изменить или снять пароль на приложение">🔑</button>
-      <button type="button" class="neu-btn" id="appQuickLockBtn" style="display:none;" title="Заблокировать приложение сейчас">🔒</button>
-      <button type="button" class="neu-btn" id="editModeBtn" title="Добавление, удаление, переименование и защита блоков">📝 Редактор</button>
-      <button type="button" class="neu-btn" id="composerToggleBtn" title="Собрать сообщение из нескольких кодов">✏️ Набор</button>
-      <button type="button" class="neu-btn" id="quizToggleBtn" title="Тренажёр запоминания сигналов">🧠 Тест</button>
-      <button type="button" class="neu-btn" id="themeModeBtn" title="Переключить светлую/тёмную тему">🌓 Тема</button>
-      <button type="button" class="neu-btn" id="settingsToggleBtn">⚙️ Настройки</button>
+      <button type="button" class="neu-btn" id="appKeyBtn" title="Встановити, змінити або зняти пароль на застосунок">🔑</button>
+      <button type="button" class="neu-btn" id="appQuickLockBtn" style="display:none;" title="Заблокувати застосунок зараз">🔒</button>
+      <button type="button" class="neu-btn" id="editModeBtn" title="Додавання, видалення, перейменування та захист блоків">📝 Редактор</button>
+      <button type="button" class="neu-btn" id="composerToggleBtn" title="Зібрати повідомлення з кількох кодів">✏️ Набір</button>
+      <button type="button" class="neu-btn" id="quizToggleBtn" title="Тренажер запам'ятовування позивних">🧠 Тест</button>
+      <button type="button" class="neu-btn" id="themeModeBtn" title="Перемкнути світлу/темну тему">🌓 Тема</button>
+      <button type="button" class="neu-btn" id="settingsToggleBtn">⚙️ Налаштування</button>
     </div>
   </header>
 
-  <!-- Панель редактора блоков и сигналов -->
+  <!-- Панель редактора блоків і сигналів -->
   <section class="editor-toolbar neu-extruded" id="editorToolbar">
     <div class="editor-toolbar-group">
-      <button type="button" class="neu-btn success-btn" id="btnNewBlock">➕ Новый блок</button>
-      <button type="button" class="neu-btn" id="btnNewSignal">⊕ Добавить сигнал</button>
-      <button type="button" class="neu-btn" id="btnLockAll" title="Закрыть все разблокированные блоки с паролем">🔒 Заблокировать блоки</button>
+      <button type="button" class="neu-btn success-btn" id="btnNewBlock">➕ Новий блок</button>
+      <button type="button" class="neu-btn" id="btnNewSignal">⊕ Додати сигнал</button>
+      <button type="button" class="neu-btn" id="btnLockAll" title="Закрити всі розблоковані блоки з паролем">🔒 Заблокувати блоки</button>
     </div>
     <div class="editor-toolbar-group">
-      <button type="button" class="neu-btn" id="btnEdExport">💾 Экспорт</button>
-      <button type="button" class="neu-btn" id="btnEdImport">📂 Импорт</button>
-      <button type="button" class="neu-btn danger-btn" id="btnClearAll">🗑️ Очистить все сигналы</button>
-      <button type="button" class="neu-btn" id="btnRestoreDefaults">↺ Восстановить базовые</button>
+      <button type="button" class="neu-btn" id="btnEdExport">💾 Експорт</button>
+      <button type="button" class="neu-btn" id="btnEdImport">📂 Імпорт</button>
+      <button type="button" class="neu-btn danger-btn" id="btnClearAll">🗑️ Очистити всі сигнали</button>
+      <button type="button" class="neu-btn" id="btnRestoreDefaults">↺ Відновити базові</button>
     </div>
   </section>
 
-  <!-- Конструктор сообщения (Набор) -->
+  <!-- Конструктор повідомлення (Набір) -->
   <section class="composer-panel neu-extruded" id="composerPanel">
-    <input type="text" id="composerInput" class="composer-input neu-pressed" placeholder="Нажимайте на строки таблицы ниже, чтобы собрать сводку...">
-    <button type="button" class="neu-btn" id="copyComposerBtn">📋 Копировать</button>
-    <button type="button" class="neu-btn" id="clearComposerBtn">✕ Очистить</button>
+    <input type="text" id="composerInput" class="composer-input neu-pressed" placeholder="Натискайте на рядки таблиці нижче, щоб зібрати зведення...">
+    <button type="button" class="neu-btn" id="copyComposerBtn">📋 Копіювати</button>
+    <button type="button" class="neu-btn" id="clearComposerBtn">✕ Очистити</button>
   </section>
 
-  <!-- Тренажёр (Тест знаний) -->
+  <!-- Тренажер (Тест знань) -->
   <section class="quiz-panel neu-extruded" id="quizPanel">
     <div class="quiz-top">
-      <strong style="color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.6px;">🧠 Тренажёр сигналов</strong>
+      <strong style="color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.6px;">🧠 Тренажер позивних і кодів</strong>
       <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-        <span class="category-count neu-pressed" id="quizScore">Верно: 0 / 0 | Серия: 0</span>
-        <button type="button" class="neu-btn pill-btn" id="quizNextBtn">Следующий →</button>
+        <span class="category-count neu-pressed" id="quizScore">Вірно: 0 / 0 | Серія: 0</span>
+        <button type="button" class="neu-btn pill-btn" id="quizNextBtn">Наступний →</button>
       </div>
     </div>
     <div class="quiz-question neu-pressed" id="quizQuestion">...</div>
     <div class="quiz-options" id="quizOptions"></div>
   </section>
 
-  <!-- Панель настроек -->
+  <!-- Панель налаштувань -->
   <section class="settings-panel neu-extruded" id="settingsPanel">
     <div class="settings-grid">
       <div class="setting-group">
-        <label>Пресеты тем</label>
+        <label>Пресети тем</label>
         <div class="theme-presets">
-          <div class="preset-dot" style="background:#1e2024;" data-bg="#1e2024" data-accent="#3b82f6" title="Тёмный графит"></div>
-          <div class="preset-dot" style="background:#1a221d;" data-bg="#1a221d" data-accent="#22c55e" title="Тактический олива"></div>
-          <div class="preset-dot" style="background:#1b1d26;" data-bg="#1b1d26" data-accent="#f59e0b" title="Ночной янтарь"></div>
-          <div class="preset-dot" style="background:#e4e8ef;" data-bg="#e4e8ef" data-accent="#2563eb" title="Светлый неоморфизм"></div>
-          <div class="preset-dot" style="background:#dcd9d0;" data-bg="#dcd9d0" data-accent="#b45309" title="Песочный светлый"></div>
+          <div class="preset-dot" style="background:#1e2024;" data-bg="#1e2024" data-accent="#3b82f6" title="Темний графіт"></div>
+          <div class="preset-dot" style="background:#1a221d;" data-bg="#1a221d" data-accent="#22c55e" title="Тактична олива"></div>
+          <div class="preset-dot" style="background:#1b1d26;" data-bg="#1b1d26" data-accent="#f59e0b" title="Нічний бурштин"></div>
+          <div class="preset-dot" style="background:#e4e8ef;" data-bg="#e4e8ef" data-accent="#2563eb" title="Світлий неоморфізм"></div>
+          <div class="preset-dot" style="background:#dcd9d0;" data-bg="#dcd9d0" data-accent="#b45309" title="Пісочний світлий"></div>
         </div>
       </div>
 
       <div class="setting-group">
-        <label>Цвет фона (HEX)</label>
+        <label>Колір фону (HEX)</label>
         <input type="color" id="bgColorPicker" value="#1e2024">
       </div>
 
       <div class="setting-group">
-        <label>Акцентный цвет (HEX)</label>
+        <label>Акцентний колір (HEX)</label>
         <input type="color" id="accentColorPicker" value="#3b82f6">
       </div>
 
       <div class="setting-group">
-        <label>Глубина 3D: <span id="depthVal">6</span>px</label>
+        <label>Глибина 3D: <span id="depthVal">6</span>px</label>
         <input type="range" id="depthRange" min="2" max="14" value="6">
       </div>
 
       <div class="setting-group">
-        <label>Скругление углов: <span id="radiusVal">14</span>px</label>
+        <label>Заокруглення кутів: <span id="radiusVal">14</span>px</label>
         <input type="range" id="radiusRange" min="4" max="26" value="14">
       </div>
 
       <div class="setting-group">
-        <label>Размер шрифта: <span id="fontVal">14</span>px</label>
+        <label>Розмір шрифту: <span id="fontVal">14</span>px</label>
         <input type="range" id="fontRange" min="12" max="20" value="14">
       </div>
     </div>
 
     <div class="settings-footer-actions">
       <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-        <button type="button" class="neu-btn" id="copyModeBtn">📋 Копировать: Код — значение</button>
-        <button type="button" class="neu-btn" id="exportJsonBtn">💾 Экспорт (Файл / Буфер)</button>
-        <button type="button" class="neu-btn" id="importJsonBtn">📂 Импорт (Файл / Буфер)</button>
+        <button type="button" class="neu-btn" id="copyModeBtn">📋 Копіювати: Код — значення</button>
+        <button type="button" class="neu-btn" id="exportJsonBtn">💾 Експорт (Файл / Буфер)</button>
+        <button type="button" class="neu-btn" id="importJsonBtn">📂 Імпорт (Файл / Буфер)</button>
         <input type="file" id="importFileInput" accept=".json,.txt" style="display:none;">
       </div>
-      <button type="button" class="neu-btn" id="resetSettingsBtn">↺ Сбросить тему</button>
+      <button type="button" class="neu-btn" id="resetSettingsBtn">↺ Скинути тему</button>
     </div>
   </section>
 
-  <!-- Фильтры категорий и общие переключатели -->
+  <!-- Фільтри категорій та загальні перемикачі -->
   <div class="filter-bar">
     <div class="cat-pills" id="catPills"></div>
     <div class="filter-right-actions">
-      <button type="button" class="neu-btn pill-btn" id="toggleAllBlocksBtn" title="Свернуть или развернуть все блоки с сигналами">➖ Свернуть все</button>
-      <button type="button" class="neu-btn pill-btn" id="hideDescsBtn" title="Размыть значения для самопроверки">👁️ Скрыть значения</button>
+      <button type="button" class="neu-btn pill-btn" id="toggleAllBlocksBtn" title="Згорнути або розгорнути всі блоки з сигналами">➖ Згорнути всі</button>
+      <button type="button" class="neu-btn pill-btn" id="hideDescsBtn" title="Розмити значення для самоперевірки">👁️ Приховати значення</button>
     </div>
   </div>
 
   <main class="categories-grid" id="categoriesGrid"></main>
 </div>
 
-<!-- Универсальное модальное окно -->
+<!-- Універсальне модальне вікно -->
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal-card neu-extruded" id="modalCard">
     <div class="modal-title" id="modalTitle"></div>
@@ -1043,7 +1048,7 @@
   </div>
 </div>
 
-<div class="toast neu-extruded" id="toast">Скопировано в буфер</div>
+<div class="toast neu-extruded" id="toast">Скопійовано в буфер</div>
 <div class="watermark">БЛiК</div>
 
 <script>
@@ -1052,13 +1057,20 @@
 
   const BASE_DATA = [
     {
-      category: "ОБСТРЕЛ",
+      category: "ЗАГАЛЬНЕ",
       items: [
-        { code: "30-70", desc: "Стрелковое" },
-        { code: "30-32", desc: "Гранотомет" },
-        { code: "30-33", desc: "Миномет" },
+        { code: "160", desc: "Все спокійно!" },
+        { code: "1.6.0", desc: "В полоні! Кожна цифра говориться окремо, замість \"0\" назвати кількість підарів" }
+      ]
+    },
+    {
+      category: "ОБСТРІЛ",
+      items: [
+        { code: "30-70", desc: "Стрілецьке" },
+        { code: "30-32", desc: "Гранатомет" },
+        { code: "30-33", desc: "Міномет" },
         { code: "30-34", desc: "Танк" },
-        { code: "30-4*", desc: "Арта (*кол-во)" },
+        { code: "30-4*", desc: "Арта (*кількість)" },
         { code: "30-36", desc: "РСВ" },
         { code: "30-37", desc: "FPV" },
         { code: "30-38", desc: "Скид" },
@@ -1066,22 +1078,22 @@
       ]
     },
     {
-      category: "НАСТУПЛЕНИЕ",
+      category: "НАСТУП",
       items: [
         { code: "ВІТЕР 40-10", desc: "Піхота" },
         { code: "40-20", desc: "Техніка (Танк, БМП, БТР)" },
         { code: "40-30", desc: "Мотоцикл, БАП, Авто" },
         { code: "ГРАД 40-50", desc: "Вогонь на ураження" },
-        { code: "Экватор 50-70", desc: "Кругова оборона" }
+        { code: "Екватор 50-70", desc: "Кругова оборона" }
       ]
     },
     {
-      category: "РАНЕНЫЙ",
+      category: "ПОРАНЕНИЙ",
       items: [
         { code: "ВЕСЛО 15-15", desc: "300 Легкий" },
         { code: "ЧОВЕН 15-20", desc: "300 Середній" },
-        { code: "БАРЖА 15-25", desc: "300 Важкийй" },
-        { code: "КРАН 15-70", desc: "Потрібен євак." },
+        { code: "БАРЖА 15-25", desc: "300 Важкий" },
+        { code: "КРАН 15-70", desc: "Потрібен евак." },
         { code: "ТГРАНІТ 15-90", desc: "200" }
       ]
     },
@@ -1107,9 +1119,9 @@
         { code: "КЛЮЧ 10", desc: "Вода" },
         { code: "КЛЮЧ 12", desc: "Їжа" },
         { code: "КЛЮЧ 17", desc: "Наб. 7.62" },
-        { code: "КЛЮЧ 18", desc: "Гранаты" },
-        { code: "КЛЮЧ 22", desc: "Заряды к РПГ" },
-        { code: "ІЗОЛЕНТА 33", desc: "Потрібна аптечка (перевязочні матераалы,)" },
+        { code: "КЛЮЧ 18", desc: "Гранати" },
+        { code: "КЛЮЧ 22", desc: "Заряди до РПГ" },
+        { code: "ІЗОЛЕНТА 33", desc: "Потрібна аптечка (перев'язувальні матеріали)" },
         { code: "ІЗОЛЕНТА 353", desc: "Потрібна аптечка (пілпак)" },
         { code: "ДРОВА 90", desc: "Паливо" }
       ]
@@ -1122,14 +1134,14 @@
       ]
     },
     {
-      category: "ПЕРЕМЕЩЕНИЕ",
+      category: "ПЕРЕМІЩЕННЯ",
       items: [
-        { code: "ГАВАНЬ", desc: "Точка высадки / посадки" },
-        { code: "РИБАЛКА", desc: "Зробити рух ( вказати точку )" },
+        { code: "ГАВАНЬ", desc: "Точка висадки / посадки" },
+        { code: "РИБАЛКА", desc: "Зробити рух (вказати точку)" },
         { code: "ВЕРБА", desc: "Рух почав" },
         { code: "ПЕЛЕНА", desc: "Знайти найближче укриття, маскуватися" },
-        { code: "БУЛЬВАР", desc: "Знахожусь ( вказуем номер / назву точки )" },
-        { code: "ТУМАН", desc: "Повернуться назад, стартове положення" },
+        { code: "БУЛЬВАР", desc: "Знаходжусь (вказуємо номер / назву точки)" },
+        { code: "ТУМАН", desc: "Повернутися назад, стартове положення" },
         { code: "ПРИСТАНЬ", desc: "Кінцева точка / успіх переміщення" }
       ]
     }
@@ -1137,7 +1149,8 @@
 
   const KEYS = {
     theme: "blik_signals_theme",
-    blocks: "blik_signals_blocks_v2",
+    blocksLegacyV2: "blik_signals_blocks_v2",
+    blocks: "blik_signals_blocks_v3",
     favs: "blik_signals_favs_v1",
     sig: "blik_signals_sig_v1",
     copyMode: "blik_signals_copymode_v1",
@@ -1154,7 +1167,7 @@
   };
 
   // ==========================================
-  // Криптография (SHA-256 + потоковое шифрование)
+  // Криптографія (SHA-256 + потокове шифрування)
   // ==========================================
   function sha256(str) {
     const bytes = new TextEncoder().encode(str);
@@ -1272,34 +1285,34 @@
     try {
       envelope = JSON.parse(rawText.trim());
     } catch (_) {
-      throw new Error("Некорректный формат данных (ожидается зашифрованный JSON).");
+      throw new Error("Некоректний формат даних (очікується зашифрований JSON).");
     }
 
     if (!envelope || envelope.app !== "BLiK-SIG" || !envelope.salt || !envelope.check || !envelope.data) {
-      throw new Error("Файл или текст не является зашифрованным пакетом БЛiК.");
+      throw new Error("Файл або текст не є зашифрованим пакетом БЛiК.");
     }
 
     const key = customKey ? customKey : BUILTIN_EXPORT_KEY;
     const expectedCheck = sha256(`${key}|${envelope.salt}|verify|${envelope.data}`);
     if (expectedCheck !== envelope.check) {
-      throw new Error("Неверный ключ расшифровки или данные повреждены.");
+      throw new Error("Невірний ключ розшифрування або дані пошкоджено.");
     }
 
     let payload;
     try {
       payload = decryptObject(envelope.data, key, envelope.salt);
     } catch (_) {
-      throw new Error("Ошибка расшифровки пакета.");
+      throw new Error("Помилка розшифрування пакета.");
     }
 
     if (!payload || typeof payload.sig !== "string" || !Array.isArray(payload.blocks)) {
-      throw new Error("Повреждённая структура данных внутри пакета.");
+      throw new Error("Пошкоджена структура даних усередині пакета.");
     }
     return payload;
   }
 
   // ==========================================
-  // Данные и состояние
+  // Дані та стан
   // ==========================================
   function uid() {
     return "id_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
@@ -1314,6 +1327,57 @@
       salt: null,
       encrypted: null
     }));
+  }
+
+  function migrateFromV2(v2Blocks) {
+    const catMap = {
+      "ОБЩЕЕ": "ЗАГАЛЬНЕ",
+      "ОБСТРЕЛ": "ОБСТРІЛ",
+      "НАСТУПЛЕНИЕ": "НАСТУП",
+      "РАНЕНЫЙ": "ПОРАНЕНИЙ",
+      "ПЕРЕМЕЩЕНИЕ": "ПЕРЕМІЩЕННЯ"
+    };
+    const descMap = {
+      "Стрелковое": "Стрілецьке",
+      "Гранотомет": "Гранатомет",
+      "Миномет": "Міномет",
+      "Арта (*кол-во)": "Арта (*кількість)",
+      "300 Важкийй": "300 Важкий",
+      "Потрібен євак.": "Потрібен евак.",
+      "Гранаты": "Гранати",
+      "Заряды к РПГ": "Заряди до РПГ",
+      "Потрібна аптечка (перевязочні матераалы,)": "Потрібна аптечка (перев'язувальні матеріали)",
+      "Точка высадки / посадки": "Точка висадки / посадки",
+      "Зробити рух ( вказати точку )": "Зробити рух (вказати точку)",
+      "Знахожусь ( вказуем номер / назву точки )": "Знаходжусь (вказуємо номер / назву точки)",
+      "Повернуться назад, стартове положення": "Повернутися назад, стартове положення"
+    };
+
+    const migrated = v2Blocks.map(b => ({
+      ...b,
+      category: catMap[b.category] || b.category,
+      items: Array.isArray(b.items)
+        ? b.items.map(it => ({
+            ...it,
+            code: it.code === "Экватор 50-70" ? "Екватор 50-70" : it.code,
+            desc: descMap[it.desc] || it.desc
+          }))
+        : []
+    }));
+
+    const hasGeneral = migrated.some(b => b.category === "ЗАГАЛЬНЕ");
+    if (!hasGeneral && migrated.length > 0) {
+      const gen = BASE_DATA[0];
+      migrated.unshift({
+        id: uid(),
+        category: gen.category,
+        items: gen.items.map(it => ({ id: uid(), code: it.code, desc: it.desc })),
+        lockHash: null,
+        salt: null,
+        encrypted: null
+      });
+    }
+    return migrated;
   }
 
   function safeParse(key, fallback) {
@@ -1350,7 +1414,6 @@
   let editMode = false;
   let copyCodeOnly = localStorage.getItem(KEYS.copyMode) === "code";
 
-  // Мастер-пароль приложения
   let currentMasterPassword = null;
   let currentMasterSalt = null;
   let currentMasterHash = null;
@@ -1391,7 +1454,6 @@
     });
   }
 
-  // Единое сохранение состояния (в открытом виде или зашифрованным под мастер-пароль)
   function persistAppState() {
     const serialized = serializeBlocks();
     if (isAppProtected() && currentMasterPassword !== null) {
@@ -1422,15 +1484,15 @@
     const quickLockBtn = document.getElementById("appQuickLockBtn");
     const protectedApp = isAppProtected();
     keyBtn.classList.toggle("key-protected", protectedApp);
-    keyBtn.textContent = protectedApp ? "🔑 Защита" : "🔑";
+    keyBtn.textContent = protectedApp ? "🔑 Захист" : "🔑";
     keyBtn.title = protectedApp
-      ? "Управление паролем приложения (изменить / снять)"
-      : "Установить пароль на приложение";
+      ? "Керування паролем застосунку (змінити / зняти)"
+      : "Встановити пароль на застосунок";
     quickLockBtn.style.display = protectedApp ? "inline-flex" : "none";
   }
 
   // ==========================================
-  // Тема и цвета
+  // Тема та кольори
   // ==========================================
   function hexToRgb(hex) {
     const clean = hex.replace("#", "");
@@ -1486,7 +1548,7 @@
   }
 
   // ==========================================
-  // Копирование, Toast, HTML
+  // Копіювання, Toast, HTML
   // ==========================================
   function showToast(text) {
     const toast = document.getElementById("toast");
@@ -1497,7 +1559,7 @@
   }
 
   function copyText(text, customMsg = null) {
-    const ok = () => showToast(customMsg || `Скопировано: ${text}`);
+    const ok = () => showToast(customMsg || `Скопійовано: ${text}`);
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(text).then(ok).catch(() => fallbackCopy(text, ok));
     } else {
@@ -1517,7 +1579,7 @@
       document.execCommand("copy");
       ok();
     } catch (_) {
-      showToast("Не удалось скопировать");
+      showToast("Не вдалося скопіювати");
     }
     document.body.removeChild(ta);
   }
@@ -1548,7 +1610,7 @@
   }
 
   // ==========================================
-  // Модальные окна
+  // Модальні вікна
   // ==========================================
   const modalBackdrop = document.getElementById("modalBackdrop");
   const modalTitle = document.getElementById("modalTitle");
@@ -1575,7 +1637,7 @@
       <label for="${id}">${escapeHtml(labelText)}</label>
       <div class="pass-wrap">
         <input type="password" id="${id}" class="modal-input neu-pressed" placeholder="${escapeHtml(placeholder)}" autocomplete="new-password">
-        <button type="button" class="pass-eye" data-target="${id}" title="Показать/скрыть">👁️</button>
+        <button type="button" class="pass-eye" data-target="${id}" title="Показати/приховати">👁️</button>
       </div>
     `;
     wrap.querySelector(".pass-eye").addEventListener("click", function () {
@@ -1586,29 +1648,28 @@
     return wrap;
   }
 
-  // 0) Мастер-пароль приложения (установка, смена, снятие)
   function openSetAppPasswordModal(isChanging = false) {
     modalTitle.textContent = isChanging
-      ? "🔑 Изменить пароль приложения"
-      : "🔑 Установить пароль на приложение";
+      ? "🔑 Змінити пароль застосунку"
+      : "🔑 Встановити пароль на застосунок";
     modalBody.innerHTML = `
       <div class="modal-note neu-pressed">
-        При запуске страницы данные будут скрыты и зашифрованы до ввода пароля.
+        Під час запуску сторінки дані будуть приховані та зашифровані до введення пароля.
       </div>
     `;
 
     if (isChanging) {
-      modalBody.appendChild(makePasswordField("appPassCur", "Текущий пароль", "Введите текущий пароль"));
+      modalBody.appendChild(makePasswordField("appPassCur", "Поточний пароль", "Введіть поточний пароль"));
     }
-    modalBody.appendChild(makePasswordField("appPass1", "Новый пароль (ввод 1)", "Придумайте пароль"));
-    modalBody.appendChild(makePasswordField("appPass2", "Повторите пароль (ввод 2)", "Введите пароль ещё раз"));
+    modalBody.appendChild(makePasswordField("appPass1", "Новий пароль (введення 1)", "Придумайте пароль"));
+    modalBody.appendChild(makePasswordField("appPass2", "Повторіть пароль (введення 2)", "Введіть пароль ще раз"));
 
-    modalHint.textContent = "Пароль вводится 2 раза для исключения опечаток";
+    modalHint.textContent = "Пароль вводиться 2 рази для уникнення помилок";
     modalHint.className = "modal-hint";
 
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn success-btn" id="mSave">🔑 Установить пароль</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn success-btn" id="mSave">🔑 Встановити пароль</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -1619,15 +1680,15 @@
 
     const checkMatch = () => {
       if (!p1.value && !p2.value) {
-        modalHint.textContent = "Пароль вводится 2 раза для исключения опечаток";
+        modalHint.textContent = "Пароль вводиться 2 рази для уникнення помилок";
         modalHint.className = "modal-hint";
         return;
       }
       if (p1.value !== p2.value) {
-        modalHint.textContent = "✕ Пароли не совпадают";
+        modalHint.textContent = "✕ Паролі не збігаються";
         modalHint.className = "modal-hint err";
       } else {
-        modalHint.textContent = "✓ Пароли совпадают";
+        modalHint.textContent = "✓ Паролі збігаються";
         modalHint.className = "modal-hint ok";
       }
     };
@@ -1637,17 +1698,17 @@
 
     const submit = () => {
       if (isChanging && sha256(`${currentMasterSalt}:${pCur.value}`) !== currentMasterHash) {
-        modalHint.textContent = "✕ Неверный текущий пароль";
+        modalHint.textContent = "✕ Невірний поточний пароль";
         modalHint.className = "modal-hint err";
         return;
       }
       if (!p1.value) {
-        modalHint.textContent = "✕ Пароль не может быть пустым";
+        modalHint.textContent = "✕ Пароль не може бути порожнім";
         modalHint.className = "modal-hint err";
         return;
       }
       if (p1.value !== p2.value) {
-        modalHint.textContent = "✕ Пароли не совпадают — проверьте ввод";
+        modalHint.textContent = "✕ Паролі не збігаються — перевірте введення";
         modalHint.className = "modal-hint err";
         return;
       }
@@ -1658,7 +1719,7 @@
       persistAppState();
       updateAppLockButtons();
       closeModal();
-      showToast(isChanging ? "Пароль приложения изменён" : "Пароль на приложение установлен");
+      showToast(isChanging ? "Пароль застосунку змінено" : "Пароль на застосунок встановлено");
     };
 
     document.getElementById("mCancel").onclick = closeModal;
@@ -1667,18 +1728,18 @@
   }
 
   function openManageAppPasswordModal() {
-    modalTitle.textContent = "🔑 Защита приложения паролем";
+    modalTitle.textContent = "🔑 Захист застосунку паролем";
     modalBody.innerHTML = `
       <div class="modal-note neu-pressed">
-        Приложение защищено мастер-паролем. Вы можете заблокировать экран сейчас, изменить пароль или полностью снять защиту.
+        Застосунок захищено майстер-паролем. Ви можете заблокувати екран зараз, змінити пароль або повністю зняти захист.
       </div>
     `;
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Закрыть</button>
-      <button type="button" class="neu-btn" id="mAppLockNow">🔒 Заблокировать сейчас</button>
-      <button type="button" class="neu-btn" id="mAppChangePass">🔑 Изменить пароль</button>
-      <button type="button" class="neu-btn danger-btn" id="mAppRemovePass">🔓 Снять пароль</button>
+      <button type="button" class="neu-btn" id="mCancel">Закрити</button>
+      <button type="button" class="neu-btn" id="mAppLockNow">🔒 Заблокувати зараз</button>
+      <button type="button" class="neu-btn" id="mAppChangePass">🔑 Змінити пароль</button>
+      <button type="button" class="neu-btn danger-btn" id="mAppRemovePass">🔓 Зняти пароль</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -1692,13 +1753,13 @@
   }
 
   function openRemoveAppPasswordModal() {
-    modalTitle.textContent = "🔓 Снять пароль с приложения";
+    modalTitle.textContent = "🔓 Зняти пароль із застосунку";
     modalBody.innerHTML = "";
-    modalBody.appendChild(makePasswordField("remAppPass", "Текущий пароль", "Подтвердите текущим паролем"));
+    modalBody.appendChild(makePasswordField("remAppPass", "Поточний пароль", "Підтвердіть поточним паролем"));
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn danger-btn" id="mConfirm">Снять пароль</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn danger-btn" id="mConfirm">Зняти пароль</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -1707,7 +1768,7 @@
 
     const submit = () => {
       if (sha256(`${currentMasterSalt}:${inp.value}`) !== currentMasterHash) {
-        modalHint.textContent = "✕ Неверный пароль";
+        modalHint.textContent = "✕ Невірний пароль";
         modalHint.className = "modal-hint err";
         return;
       }
@@ -1717,7 +1778,7 @@
       persistAppState();
       updateAppLockButtons();
       closeModal();
-      showToast("Пароль с приложения снят");
+      showToast("Пароль із застосунку знято");
     };
 
     document.getElementById("mCancel").onclick = closeModal;
@@ -1733,7 +1794,6 @@
     blocks = [];
     favorites = new Set();
 
-    // Очищаем DOM от открытых данных
     document.getElementById("categoriesGrid").innerHTML = "";
     document.getElementById("catPills").innerHTML = "";
     document.getElementById("composerInput").value = "";
@@ -1760,7 +1820,7 @@
     const pass = inp.value;
 
     if (sha256(`${lockObj.salt}:${pass}`) !== lockObj.hash) {
-      hint.textContent = "✕ Неверный пароль";
+      hint.textContent = "✕ Невірний пароль";
       hint.className = "modal-hint err";
       inp.select();
       return;
@@ -1770,7 +1830,7 @@
     try {
       payload = decryptObject(lockObj.payload, pass, lockObj.salt);
     } catch (_) {
-      hint.textContent = "✕ Ошибка расшифровки данных";
+      hint.textContent = "✕ Помилка розшифрування даних";
       hint.className = "modal-hint err";
       return;
     }
@@ -1791,19 +1851,18 @@
     renderAll();
   }
 
-  // 1) Редактирование заголовка (только СИГНАЛ)
   function openEditSigModal() {
-    modalTitle.textContent = "✎ Редактирование заголовка (СИГНАЛ)";
+    modalTitle.textContent = "✎ Редагування заголовка (СИГНАЛ)";
     modalBody.innerHTML = `
       <div class="modal-field">
         <label for="sigInputModal">СИГНАЛ</label>
-        <input type="text" id="sigInputModal" class="modal-input neu-pressed" value="${escapeHtml(currentSig)}" placeholder="Введите СИГНАЛ...">
+        <input type="text" id="sigInputModal" class="modal-input neu-pressed" value="${escapeHtml(currentSig)}" placeholder="Введіть СИГНАЛ...">
       </div>
     `;
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn success-btn" id="mSave">Сохранить</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn success-btn" id="mSave">Зберегти</button>
     `;
     modalBackdrop.classList.add("open");
     const inp = document.getElementById("sigInputModal");
@@ -1813,7 +1872,7 @@
     const submit = () => {
       const val = inp.value.trim();
       if (!val) {
-        modalHint.textContent = "Поле СИГНАЛ не может быть пустым";
+        modalHint.textContent = "Поле СИГНАЛ не може бути порожнім";
         modalHint.className = "modal-hint err";
         return;
       }
@@ -1821,7 +1880,7 @@
       document.getElementById("sigText").textContent = val;
       persistAppState();
       closeModal();
-      showToast("СИГНАЛ обновлён");
+      showToast("СИГНАЛ оновлено");
     };
 
     document.getElementById("mCancel").onclick = closeModal;
@@ -1829,19 +1888,18 @@
     inp.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
   }
 
-  // 2) Создание / переименование блока
   function openBlockModal(existingBlock = null) {
-    modalTitle.textContent = existingBlock ? "✎ Переименовать блок" : "➕ Создать новый блок";
+    modalTitle.textContent = existingBlock ? "✎ Перейменувати блок" : "➕ Створити новий блок";
     modalBody.innerHTML = `
       <div class="modal-field">
-        <label for="blockNameModal">Название блока</label>
-        <input type="text" id="blockNameModal" class="modal-input neu-pressed" value="${existingBlock ? escapeHtml(existingBlock.category) : ""}" placeholder="Напр. СВЯЗЬ или НАБЛЮДЕНИЕ">
+        <label for="blockNameModal">Назва блоку</label>
+        <input type="text" id="blockNameModal" class="modal-input neu-pressed" value="${existingBlock ? escapeHtml(existingBlock.category) : ""}" placeholder="Напр. ЗВ'ЯЗОК або СПОСТЕРЕЖЕННЯ">
       </div>
     `;
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn success-btn" id="mSave">${existingBlock ? "Сохранить" : "Создать блок"}</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn success-btn" id="mSave">${existingBlock ? "Зберегти" : "Створити блок"}</button>
     `;
     modalBackdrop.classList.add("open");
     const inp = document.getElementById("blockNameModal");
@@ -1850,18 +1908,18 @@
     const submit = () => {
       const name = inp.value.trim().toUpperCase();
       if (!name) {
-        modalHint.textContent = "Введите название блока";
+        modalHint.textContent = "Введіть назву блоку";
         modalHint.className = "modal-hint err";
         return;
       }
       if (existingBlock) {
         existingBlock.category = name;
-        showToast(`Блок переименован: ${name}`);
+        showToast(`Блок перейменовано: ${name}`);
       } else {
         const nb = { id: uid(), category: name, items: [], lockHash: null, salt: null, encrypted: null };
         blocks.push(nb);
         activeCategory = "ALL";
-        showToast(`Создан блок: ${name}`);
+        showToast(`Створено блок: ${name}`);
       }
       persistAppState();
       renderAll();
@@ -1873,16 +1931,15 @@
     inp.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
   }
 
-  // 3) Добавление / редактирование сигнала
   function openSignalModal(blockId = null, existingItem = null) {
     const unlockedBlocks = blocks.filter(b => !isBlockLocked(b));
     if (unlockedBlocks.length === 0) {
-      showToast("Сначала создайте или разблокируйте хотя бы один блок");
+      showToast("Спочатку створіть або розблокуйте хоча б один блок");
       return;
     }
 
     const selectedBlockId = blockId || unlockedBlocks[0].id;
-    modalTitle.textContent = existingItem ? "✎ Редактировать сигнал" : "⊕ Добавить сигнал";
+    modalTitle.textContent = existingItem ? "✎ Редагувати сигнал" : "⊕ Додати сигнал";
     modalBody.innerHTML = `
       <div class="modal-field">
         <label for="sigBlockSelect">Блок</label>
@@ -1891,18 +1948,18 @@
         </select>
       </div>
       <div class="modal-field">
-        <label for="sigCodeInput">Код / Позывной</label>
+        <label for="sigCodeInput">Код / Позивний</label>
         <input type="text" id="sigCodeInput" class="modal-input neu-pressed" value="${existingItem ? escapeHtml(existingItem.code) : ""}" placeholder="Напр. МАЯК 10">
       </div>
       <div class="modal-field">
-        <label for="sigDescInput">Значение</label>
-        <input type="text" id="sigDescInput" class="modal-input neu-pressed" value="${existingItem ? escapeHtml(existingItem.desc) : ""}" placeholder="Напр. Ориентир / сигнал">
+        <label for="sigDescInput">Значення</label>
+        <input type="text" id="sigDescInput" class="modal-input neu-pressed" value="${existingItem ? escapeHtml(existingItem.desc) : ""}" placeholder="Напр. Орієнтир / сигнал">
       </div>
     `;
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn success-btn" id="mSave">${existingItem ? "Сохранить" : "Добавить"}</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn success-btn" id="mSave">${existingItem ? "Зберегти" : "Додати"}</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -1914,21 +1971,21 @@
       const code = codeInp.value.trim();
       const desc = descInp.value.trim();
       if (!code || !desc) {
-        modalHint.textContent = "Заполните оба поля: код и значение";
+        modalHint.textContent = "Заповніть обидва поля: код і значення";
         modalHint.className = "modal-hint err";
         return;
       }
       if (existingItem) {
         existingItem.code = code;
         existingItem.desc = desc;
-        showToast(`Обновлено: ${code}`);
+        showToast(`Оновлено: ${code}`);
       } else {
         const targetBlock = blocks.find(b => b.id === document.getElementById("sigBlockSelect").value);
         if (targetBlock) {
           targetBlock.items.push({ id: uid(), code, desc });
           collapsedCats.delete(targetBlock.id);
           safeSave(KEYS.collapsed, Array.from(collapsedCats));
-          showToast(`Добавлено в ${targetBlock.category}: ${code}`);
+          showToast(`Додано в ${targetBlock.category}: ${code}`);
         }
       }
       persistAppState();
@@ -1941,25 +1998,24 @@
     descInp.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
   }
 
-  // 4) Защита блока паролем (ввод 2 раза)
   function openSetPasswordModal(block, isChanging = false) {
     modalTitle.textContent = isChanging
-      ? `🔑 Сменить пароль блока «${block.category}»`
-      : `🔒 Защита паролем блока «${block.category}»`;
+      ? `🔑 Змінити пароль блоку «${block.category}»`
+      : `🔒 Захист паролем блоку «${block.category}»`;
     modalBody.innerHTML = "";
 
     if (isChanging) {
-      modalBody.appendChild(makePasswordField("passCur", "Текущий пароль", "Введите текущий пароль"));
+      modalBody.appendChild(makePasswordField("passCur", "Поточний пароль", "Введіть поточний пароль"));
     }
-    modalBody.appendChild(makePasswordField("pass1", "Новый пароль (ввод 1)", "Придумайте пароль"));
-    modalBody.appendChild(makePasswordField("pass2", "Повторите пароль (ввод 2)", "Введите пароль ещё раз"));
+    modalBody.appendChild(makePasswordField("pass1", "Новий пароль (введення 1)", "Придумайте пароль"));
+    modalBody.appendChild(makePasswordField("pass2", "Повторіть пароль (введення 2)", "Введіть пароль ще раз"));
 
-    modalHint.textContent = "Пароль вводится 2 раза для исключения опечаток";
+    modalHint.textContent = "Пароль вводиться 2 рази для уникнення помилок";
     modalHint.className = "modal-hint";
 
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn success-btn" id="mSave">🔒 Установить пароль</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn success-btn" id="mSave">🔒 Встановити пароль</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -1970,15 +2026,15 @@
 
     const checkMatch = () => {
       if (!p1.value && !p2.value) {
-        modalHint.textContent = "Пароль вводится 2 раза для исключения опечаток";
+        modalHint.textContent = "Пароль вводиться 2 рази для уникнення помилок";
         modalHint.className = "modal-hint";
         return;
       }
       if (p1.value !== p2.value) {
-        modalHint.textContent = "✕ Пароли не совпадают";
+        modalHint.textContent = "✕ Паролі не збігаються";
         modalHint.className = "modal-hint err";
       } else {
-        modalHint.textContent = "✓ Пароли совпадают";
+        modalHint.textContent = "✓ Паролі збігаються";
         modalHint.className = "modal-hint ok";
       }
     };
@@ -1988,17 +2044,17 @@
 
     const submit = () => {
       if (isChanging && sha256(`${block.salt}:${pCur.value}`) !== block.lockHash) {
-        modalHint.textContent = "✕ Неверный текущий пароль";
+        modalHint.textContent = "✕ Невірний поточний пароль";
         modalHint.className = "modal-hint err";
         return;
       }
       if (!p1.value) {
-        modalHint.textContent = "✕ Пароль не может быть пустым";
+        modalHint.textContent = "✕ Пароль не може бути порожнім";
         modalHint.className = "modal-hint err";
         return;
       }
       if (p1.value !== p2.value) {
-        modalHint.textContent = "✕ Пароли не совпадают — проверьте ввод";
+        modalHint.textContent = "✕ Паролі не збігаються — перевірте введення";
         modalHint.className = "modal-hint err";
         return;
       }
@@ -2010,7 +2066,7 @@
       persistAppState();
       renderAll();
       closeModal();
-      showToast(`Пароль установлен на блок «${block.category}»`);
+      showToast(`Пароль встановлено на блок «${block.category}»`);
     };
 
     document.getElementById("mCancel").onclick = closeModal;
@@ -2019,13 +2075,13 @@
   }
 
   function openUnlockModal(block, afterUnlock = null) {
-    modalTitle.textContent = `🔓 Разблокировать блок «${block.category}»`;
+    modalTitle.textContent = `🔓 Розблокувати блок «${block.category}»`;
     modalBody.innerHTML = "";
-    modalBody.appendChild(makePasswordField("unlockPass", "Пароль", "Введите пароль блока"));
+    modalBody.appendChild(makePasswordField("unlockPass", "Пароль", "Введіть пароль блоку"));
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn success-btn" id="mUnlock">Открыть</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn success-btn" id="mUnlock">Відкрити</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -2035,7 +2091,7 @@
     const submit = () => {
       const pass = inp.value;
       if (sha256(`${block.salt}:${pass}`) !== block.lockHash) {
-        modalHint.textContent = "✕ Неверный пароль";
+        modalHint.textContent = "✕ Невірний пароль";
         modalHint.className = "modal-hint err";
         inp.select();
         return;
@@ -2043,14 +2099,14 @@
       try {
         block.items = block.encrypted ? decryptObject(block.encrypted, pass, block.salt) : [];
       } catch (_) {
-        modalHint.textContent = "✕ Ошибка расшифровки данных";
+        modalHint.textContent = "✕ Помилка розшифрування даних";
         modalHint.className = "modal-hint err";
         return;
       }
       unlockedPasswords.set(block.id, pass);
       closeModal();
       renderAll();
-      showToast(`Блок «${block.category}» разблокирован`);
+      showToast(`Блок «${block.category}» розблоковано`);
       if (afterUnlock) afterUnlock();
     };
 
@@ -2060,14 +2116,14 @@
   }
 
   function openManageLockModal(block) {
-    modalTitle.textContent = `🛡️ Защита блока «${block.category}»`;
-    modalBody.innerHTML = `<p style="font-size:0.92em; color:var(--text-muted);">Блок сейчас разблокирован для работы. Вы можете закрыть его замком, сменить пароль или снять защиту.</p>`;
+    modalTitle.textContent = `🛡️ Захист блоку «${block.category}»`;
+    modalBody.innerHTML = `<p style="font-size:0.92em; color:var(--text-muted);">Блок зараз розблоковано для роботи. Ви можете закрити його замком, змінити пароль або зняти захист.</p>`;
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Закрыть окно</button>
-      <button type="button" class="neu-btn" id="mLockNow">🔒 Заблокировать сейчас</button>
-      <button type="button" class="neu-btn" id="mChangePass">🔑 Сменить пароль</button>
-      <button type="button" class="neu-btn danger-btn" id="mRemovePass">🔓 Снять пароль</button>
+      <button type="button" class="neu-btn" id="mCancel">Закрити вікно</button>
+      <button type="button" class="neu-btn" id="mLockNow">🔒 Заблокувати зараз</button>
+      <button type="button" class="neu-btn" id="mChangePass">🔑 Змінити пароль</button>
+      <button type="button" class="neu-btn danger-btn" id="mRemovePass">🔓 Зняти пароль</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -2078,13 +2134,13 @@
   }
 
   function openRemovePasswordModal(block) {
-    modalTitle.textContent = `🔓 Снять пароль с блока «${block.category}»`;
+    modalTitle.textContent = `🔓 Зняти пароль із блоку «${block.category}»`;
     modalBody.innerHTML = "";
-    modalBody.appendChild(makePasswordField("remPass", "Текущий пароль", "Подтвердите текущим паролем"));
+    modalBody.appendChild(makePasswordField("remPass", "Поточний пароль", "Підтвердіть поточним паролем"));
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn danger-btn" id="mConfirm">Снять защиту</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn danger-btn" id="mConfirm">Зняти захист</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -2093,7 +2149,7 @@
 
     const submit = () => {
       if (sha256(`${block.salt}:${inp.value}`) !== block.lockHash) {
-        modalHint.textContent = "✕ Неверный пароль";
+        modalHint.textContent = "✕ Невірний пароль";
         modalHint.className = "modal-hint err";
         return;
       }
@@ -2104,7 +2160,7 @@
       persistAppState();
       renderAll();
       closeModal();
-      showToast(`Защита снята с блока «${block.category}»`);
+      showToast(`Захист знято з блоку «${block.category}»`);
     };
 
     document.getElementById("mCancel").onclick = closeModal;
@@ -2122,25 +2178,24 @@
     block.items = [];
     persistAppState();
     renderAll();
-    showToast(`Блок «${block.category}» заблокирован`);
+    showToast(`Блок «${block.category}» заблоковано`);
   }
 
-  // 5) Зашифрованный ЭКСПОРТ и ИМПОРТ
   function openExportModal() {
-    modalTitle.textContent = "💾 Экспорт (Файл и Буфер обмена)";
+    modalTitle.textContent = "💾 Експорт (Файл і Буфер обміну)";
     modalBody.innerHTML = `
       <div class="modal-note neu-pressed">
-        Выгружаются <strong>только заголовок (СИГНАЛ) и сигналы</strong> без настроек темы. Данные полностью зашифрованы — прочитать содержимое файла напрямую невозможно.
+        Вивантажуються <strong>тільки заголовок (СИГНАЛ) і сигнали</strong> без налаштувань теми. Дані повністю зашифровані — прочитати вміст файлу напряму неможливо.
       </div>
     `;
     modalBody.appendChild(
-      makePasswordField("expKeyInput", "Ключ шифрования (необязательно)", "Пусто = используется встроенный ключ")
+      makePasswordField("expKeyInput", "Ключ шифрування (необов'язково)", "Порожньо = використовується вбудований ключ")
     );
-    modalHint.textContent = "По умолчанию используется вшитый ключ блока. Укажите свой ключ, если хотите закрыть конкретный файл индивидуально.";
+    modalHint.textContent = "За замовчуванням використовується вшитий ключ блоку. Вкажіть свій ключ, якщо хочете закрити конкретний файл індивідуально.";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn" id="mExpClip">📋 В буфер обмена</button>
-      <button type="button" class="neu-btn success-btn" id="mExpFile">💾 Скачать .json</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn" id="mExpClip">📋 У буфер обміну</button>
+      <button type="button" class="neu-btn success-btn" id="mExpFile">💾 Завантажити .json</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -2149,7 +2204,7 @@
 
     document.getElementById("mExpClip").onclick = () => {
       const encryptedStr = buildEncryptedExportString(keyInp.value);
-      copyText(encryptedStr, "Зашифрованный пакет скопирован в буфер!");
+      copyText(encryptedStr, "Зашифрований пакет скопійовано в буфер!");
       closeModal();
     };
 
@@ -2162,7 +2217,7 @@
       a.click();
       URL.revokeObjectURL(a.href);
       closeModal();
-      showToast("Зашифрованный файл сохранён");
+      showToast("Зашифрований файл збережено");
     };
   }
 
@@ -2183,32 +2238,32 @@
   }
 
   function openImportModal() {
-    modalTitle.textContent = "📂 Импорт (Файл и Буфер обмена)";
+    modalTitle.textContent = "📂 Імпорт (Файл і Буфер обміну)";
     modalBody.innerHTML = `
       <div class="modal-note neu-pressed">
-        Загружает <strong>только заголовок (СИГНАЛ) и сигналы</strong>. Текущая тема оформления и настройки интерфейса останутся без изменений.
+        Завантажує <strong>тільки заголовок (СИГНАЛ) і сигнали</strong>. Поточна тема оформлення та налаштування інтерфейсу залишаться без змін.
       </div>
     `;
     modalBody.appendChild(
-      makePasswordField("impKeyInput", "Ключ расшифровки (необязательно)", "Пусто = используется встроенный ключ")
+      makePasswordField("impKeyInput", "Ключ розшифрування (необов'язково)", "Порожньо = використовується вбудований ключ")
     );
 
     const pasteWrap = document.createElement("div");
     pasteWrap.className = "modal-field";
     pasteWrap.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-        <label for="impPasteBox">Данные из буфера обмена или файла</label>
-        <button type="button" class="neu-btn" id="mPasteFromClip" style="padding:4px 9px; font-size:0.78em;">📋 Вставить из буфера</button>
+        <label for="impPasteBox">Дані з буфера обміну або файлу</label>
+        <button type="button" class="neu-btn" id="mPasteFromClip" style="padding:4px 9px; font-size:0.78em;">📋 Вставити з буфера</button>
       </div>
-      <textarea id="impPasteBox" class="modal-input neu-pressed" rows="4" placeholder='Вставьте зашифрованный JSON-текст или выберите .json файл ниже...'></textarea>
+      <textarea id="impPasteBox" class="modal-input neu-pressed" rows="4" placeholder='Вставте зашифрований JSON-текст або виберіть .json файл нижче...'></textarea>
     `;
     modalBody.appendChild(pasteWrap);
 
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
-      <button type="button" class="neu-btn" id="mPickFile">📂 Выбрать файл .json</button>
-      <button type="button" class="neu-btn success-btn" id="mRunImport">✓ Импортировать</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
+      <button type="button" class="neu-btn" id="mPickFile">📂 Вибрати файл .json</button>
+      <button type="button" class="neu-btn success-btn" id="mRunImport">✓ Імпортувати</button>
     `;
     modalBackdrop.classList.add("open");
 
@@ -2217,7 +2272,7 @@
 
     const tryImportText = raw => {
       if (!raw.trim()) {
-        modalHint.textContent = "✕ Вставьте текст из буфера или выберите .json файл";
+        modalHint.textContent = "✕ Вставте текст із буфера або виберіть .json файл";
         modalHint.className = "modal-hint err";
         return;
       }
@@ -2225,7 +2280,7 @@
         const payload = parseEncryptedImportString(raw, keyInp.value);
         applyImportedPayload(payload);
         closeModal();
-        showToast("Заголовок и сигналы успешно импортированы!");
+        showToast("Заголовок і сигнали успішно імпортовано!");
       } catch (err) {
         pasteBox.value = raw;
         modalHint.textContent = "✕ " + err.message;
@@ -2242,14 +2297,14 @@
           const clipText = await navigator.clipboard.readText();
           if (clipText) {
             pasteBox.value = clipText;
-            modalHint.textContent = "✓ Текст вставлен. Нажмите «Импортировать» (или введите ключ).";
+            modalHint.textContent = "✓ Текст вставлено. Натисніть «Імпортувати» (або введіть ключ).";
             modalHint.className = "modal-hint ok";
             return;
           }
         } catch (_) {}
       }
       pasteBox.focus();
-      modalHint.textContent = "Вставьте текст вручную (Ctrl+V / Долгое нажатие → Вставить)";
+      modalHint.textContent = "Вставте текст вручну (Ctrl+V / Довге натискання → Вставити)";
       modalHint.className = "modal-hint";
     };
 
@@ -2271,7 +2326,7 @@
     modalBody.innerHTML = `<p style="font-size:0.95em; color:var(--text-color); line-height:1.5;">${escapeHtml(message)}</p>`;
     modalHint.textContent = "";
     modalActions.innerHTML = `
-      <button type="button" class="neu-btn" id="mCancel">Отмена</button>
+      <button type="button" class="neu-btn" id="mCancel">Скасувати</button>
       <button type="button" class="neu-btn danger-btn" id="mConfirm">${escapeHtml(confirmLabel)}</button>
     `;
     modalBackdrop.classList.add("open");
@@ -2283,7 +2338,7 @@
   }
 
   // ==========================================
-  // Фильтры, сворачивание и рендер таблицы
+  // Фільтри, згортання та рендер таблиці
   // ==========================================
   function getVisibleBlocksForAllToggle() {
     return blocks.filter(b => activeCategory === "ALL" || activeCategory === "FAV" || b.id === activeCategory);
@@ -2298,7 +2353,7 @@
     }
     btn.style.display = "inline-flex";
     const allCollapsed = targetBlocks.every(b => collapsedCats.has(b.id));
-    btn.textContent = allCollapsed ? "➕ Развернуть все" : "➖ Свернуть все";
+    btn.textContent = allCollapsed ? "➕ Розгорнути всі" : "➖ Згорнути всі";
     btn.classList.toggle("active", allCollapsed);
   }
 
@@ -2306,8 +2361,8 @@
     const pillsEl = document.getElementById("catPills");
     const totalCount = blocks.reduce((sum, b) => sum + (isBlockLocked(b) ? 0 : b.items.length), 0);
 
-    let html = `<button type="button" class="neu-btn pill-btn ${activeCategory === "ALL" ? "active" : ""}" data-cat="ALL">🌐 Все (${totalCount})</button>`;
-    html += `<button type="button" class="neu-btn pill-btn fav-pill ${activeCategory === "FAV" ? "active" : ""}" data-cat="FAV">★ Избранное (${favorites.size})</button>`;
+    let html = `<button type="button" class="neu-btn pill-btn ${activeCategory === "ALL" ? "active" : ""}" data-cat="ALL">🌐 Усі (${totalCount})</button>`;
+    html += `<button type="button" class="neu-btn pill-btn fav-pill ${activeCategory === "FAV" ? "active" : ""}" data-cat="FAV">★ Обране (${favorites.size})</button>`;
 
     blocks.forEach(b => {
       const lockMark = isBlockLocked(b) ? "🔒 " : (isBlockProtected(b) ? "🔓 " : "");
@@ -2329,12 +2384,12 @@
       const empty = document.createElement("div");
       empty.className = "empty-state neu-extruded";
       empty.innerHTML = `
-        <div style="font-size:1.1em; font-weight:700; color:var(--text-color);">Список сигналов полностью пуст</div>
-        <div>Создайте свой первый блок или импортируйте зашифрованную таблицу.</div>
+        <div style="font-size:1.1em; font-weight:700; color:var(--text-color);">Список сигналів повністю порожній</div>
+        <div>Створіть свій перший блок або імпортуйте зашифровану таблицю.</div>
         <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-          <button type="button" class="neu-btn success-btn" id="emptyNewBlock">➕ Создать первый блок</button>
-          <button type="button" class="neu-btn" id="emptyImport">📂 Импорт</button>
-          <button type="button" class="neu-btn" id="emptyRestore">↺ Вернуть базовые сигналы</button>
+          <button type="button" class="neu-btn success-btn" id="emptyNewBlock">➕ Створити перший блок</button>
+          <button type="button" class="neu-btn" id="emptyImport">📂 Імпорт</button>
+          <button type="button" class="neu-btn" id="emptyRestore">↺ Повернути базові сигнали</button>
         </div>
       `;
       empty.querySelector("#emptyNewBlock").onclick = () => openBlockModal(null);
@@ -2387,8 +2442,8 @@
         : (protectedBlock ? "icon-btn unlock-active" : "icon-btn edit-only");
       const lockIcon = locked ? "🔒" : (protectedBlock ? "🔓" : "🔒");
       const lockTitle = locked
-        ? "Разблокировать блок"
-        : (protectedBlock ? "Управление паролем / заблокировать" : "Защитить блок паролем");
+        ? "Розблокувати блок"
+        : (protectedBlock ? "Керування паролем / заблокувати" : "Захистити блок паролем");
 
       header.innerHTML = `
         <div class="category-title-click">
@@ -2397,10 +2452,10 @@
         </div>
         <div class="cat-header-controls">
           <button type="button" class="${lockBtnClass}" data-act="lock" title="${lockTitle}">${lockIcon}</button>
-          <button type="button" class="icon-btn edit-only" data-act="add" title="Добавить сигнал в этот блок">⊕</button>
-          <button type="button" class="icon-btn edit-only" data-act="rename" title="Переименовать блок">✎</button>
-          <button type="button" class="icon-btn del edit-only" data-act="del-block" title="Удалить весь блок">🗑️</button>
-          <button type="button" class="toggle-block-btn" data-act="toggle" title="${isCollapsed ? "Развернуть блок" : "Свернуть блок"}">${isCollapsed ? "➕" : "➖"}</button>
+          <button type="button" class="icon-btn edit-only" data-act="add" title="Додати сигнал у цей блок">⊕</button>
+          <button type="button" class="icon-btn edit-only" data-act="rename" title="Перейменувати блок">✎</button>
+          <button type="button" class="icon-btn del edit-only" data-act="del-block" title="Видалити весь блок">🗑️</button>
+          <button type="button" class="toggle-block-btn" data-act="toggle" title="${isCollapsed ? "Розгорнути блок" : "Згорнути блок"}">${isCollapsed ? "➕" : "➖"}</button>
         </div>
       `;
 
@@ -2426,9 +2481,9 @@
       header.querySelector('[data-act="del-block"]').addEventListener("click", () => {
         const doDelete = () => {
           openConfirmModal(
-            "🗑️ Удалить блок?",
-            `Вы действительно хотите удалить блок «${block.category}» и все его сигналы?`,
-            "Удалить блок",
+            "🗑️ Видалити блок?",
+            `Ви справді хочете видалити блок «${block.category}» та всі його сигнали?`,
+            "Видалити блок",
             () => {
               blocks = blocks.filter(b => b.id !== block.id);
               unlockedPasswords.delete(block.id);
@@ -2437,7 +2492,7 @@
               if (activeCategory === block.id) activeCategory = "ALL";
               persistAppState();
               renderAll();
-              showToast(`Блок «${block.category}» удалён`);
+              showToast(`Блок «${block.category}» видалено`);
             }
           );
         };
@@ -2452,8 +2507,8 @@
         body.innerHTML = `
           <div class="locked-box neu-pressed">
             <div class="lock-big">🔒</div>
-            <div style="font-weight:600; color:var(--text-color);">Блок защищён паролем</div>
-            <div style="font-size:0.85em;">Содержимое скрыто и зашифровано</div>
+            <div style="font-weight:600; color:var(--text-color);">Блок захищено паролем</div>
+            <div style="font-size:0.85em;">Вміст приховано і зашифровано</div>
             <button type="button" class="neu-btn success-btn">🔑 Ввести пароль</button>
           </div>
         `;
@@ -2461,8 +2516,8 @@
       } else if (filteredItems.length === 0) {
         body.innerHTML = `
           <div class="locked-box neu-pressed" style="padding:16px;">
-            <div style="font-size:0.9em;">В этом блоке пока нет сигналов</div>
-            <button type="button" class="neu-btn">⊕ Добавить первый сигнал</button>
+            <div style="font-size:0.9em;">У цьому блоці поки немає сигналів</div>
+            <button type="button" class="neu-btn">⊕ Додати перший сигнал</button>
           </div>
         `;
         body.querySelector("button").addEventListener("click", () => openSignalModal(block.id, null));
@@ -2474,15 +2529,15 @@
           const isFav = favorites.has(item.id);
           const tr = document.createElement("tr");
           tr.className = "code-row row-bg";
-          tr.title = composerMode ? "Добавить в строку набора" : "Нажмите, чтобы скопировать";
+          tr.title = composerMode ? "Додати в рядок набору" : "Натисніть, щоб скопіювати";
 
           tr.innerHTML = `
             <td class="code-cell">${highlight(item.code, rawQuery)}</td>
             <td class="desc-cell"><span class="desc-text">${highlight(item.desc, rawQuery)}</span></td>
             <td class="actions-cell">
-              <button type="button" class="row-action-btn ${isFav ? "is-fav" : ""}" data-act="fav" title="В избранное">${isFav ? "★" : "☆"}</button>
-              <button type="button" class="row-action-btn edit-row-btn edit-only" data-act="edit-item" title="Редактировать">✎</button>
-              <button type="button" class="row-action-btn del-row-btn edit-only" data-act="del-item" title="Удалить сигнал">🗑️</button>
+              <button type="button" class="row-action-btn ${isFav ? "is-fav" : ""}" data-act="fav" title="В обране">${isFav ? "★" : "☆"}</button>
+              <button type="button" class="row-action-btn edit-row-btn edit-only" data-act="edit-item" title="Редагувати">✎</button>
+              <button type="button" class="row-action-btn del-row-btn edit-only" data-act="del-item" title="Видалити сигнал">🗑️</button>
             </td>
           `;
 
@@ -2502,7 +2557,7 @@
                 favorites.delete(item.id);
                 persistAppState();
                 renderAll();
-                showToast(`Сигнал «${item.code}» удалён`);
+                showToast(`Сигнал «${item.code}» видалено`);
               }
               return;
             }
@@ -2516,7 +2571,7 @@
               const comp = document.getElementById("composerInput");
               comp.value = comp.value ? `${comp.value} | ${item.code}` : item.code;
               comp.focus();
-              showToast(`Добавлено: ${item.code}`);
+              showToast(`Додано: ${item.code}`);
             } else {
               copyText(payload);
             }
@@ -2538,8 +2593,8 @@
       const empty = document.createElement("div");
       empty.className = "empty-state neu-extruded";
       empty.textContent = activeCategory === "FAV" && !rawQuery
-        ? "Список избранного пуст — нажмите ☆ на любой строке, чтобы закрепить её здесь."
-        : "Ничего не найдено по вашему запросу.";
+        ? "Список обраного порожній — натисніть ☆ на будь-якому рядку, щоб закріпити його тут."
+        : "Нічого не знайдено за вашим запитом.";
       grid.appendChild(empty);
     }
 
@@ -2555,7 +2610,7 @@
     const btn = card.querySelector(".toggle-block-btn");
     if (btn) {
       btn.textContent = collapsed ? "➕" : "➖";
-      btn.title = collapsed ? "Развернуть блок" : "Свернуть блок";
+      btn.title = collapsed ? "Розгорнути блок" : "Згорнути блок";
     }
     updateToggleAllBtn();
   }
@@ -2567,9 +2622,9 @@
 
   function restoreDefaultBlocks() {
     openConfirmModal(
-      "↺ Восстановить стандартные сигналы?",
-      "Текущие блоки будут заменены на исходные 8 блоков (ОБСТРЕЛ, НАСТУПЛЕНИЕ, РАНЕНЫЙ и т.д.).",
-      "Восстановить",
+      "↺ Відновити стандартні сигнали?",
+      "Поточні блоки буде замінено на початкові 9 блоків (ЗАГАЛЬНЕ, ОБСТРІЛ, НАСТУП, ПОРАНЕНИЙ тощо).",
+      "Відновити",
       () => {
         blocks = makeDefaultBlocks();
         unlockedPasswords.clear();
@@ -2579,13 +2634,13 @@
         safeSave(KEYS.collapsed, []);
         persistAppState();
         renderAll();
-        showToast("Базовые сигналы восстановлены");
+        showToast("Базові сигнали відновлено");
       }
     );
   }
 
   // ==========================================
-  // Тренажёр (Квиз — только по открытым блокам)
+  // Тренажер (Квіз — без підказок категорій)
   // ==========================================
   let quizTotal = 0;
   let quizCorrect = 0;
@@ -2595,13 +2650,13 @@
   function loadNextQuestion() {
     const allItems = blocks
       .filter(b => !isBlockLocked(b))
-      .flatMap(b => b.items.map(it => ({ ...it, cat: b.category })));
+      .flatMap(b => b.items);
 
     const qEl = document.getElementById("quizQuestion");
     const optsEl = document.getElementById("quizOptions");
 
     if (allItems.length < 4) {
-      qEl.textContent = "Для теста нужно минимум 4 открытых сигнала";
+      qEl.textContent = "Для тесту потрібно щонайменше 4 відкритих сигнали";
       optsEl.innerHTML = "";
       return;
     }
@@ -2619,8 +2674,8 @@
 
     const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
     qEl.innerHTML = askByCode
-      ? `Что означает: <span>${escapeHtml(target.code)}</span> <small style="color:var(--text-muted); font-weight:400;">(${escapeHtml(target.cat)})</small>?`
-      : `Какой код означает: <span>${escapeHtml(target.desc)}</span>?`;
+      ? `Що означає: <span>${escapeHtml(target.code)}</span>?`
+      : `Який код означає: <span>${escapeHtml(target.desc)}</span>?`;
 
     optsEl.innerHTML = "";
     choices.forEach(ch => {
@@ -2646,14 +2701,14 @@
             }
           });
         }
-        document.getElementById("quizScore").textContent = `Верно: ${quizCorrect} / ${quizTotal} | Серия: ${quizStreak}`;
+        document.getElementById("quizScore").textContent = `Вірно: ${quizCorrect} / ${quizTotal} | Серія: ${quizStreak}`;
       });
       optsEl.appendChild(btn);
     });
   }
 
   // ==========================================
-  // События экрана блокировки приложения
+  // Події екрана блокування застосунку
   // ==========================================
   document.getElementById("appUnlockEye").addEventListener("click", () => {
     const inp = document.getElementById("appUnlockInput");
@@ -2668,12 +2723,13 @@
 
   document.getElementById("appLockResetBtn").addEventListener("click", () => {
     openConfirmModal(
-      "🗑️ Сбросить пароль и данные?",
-      "Все сохранённые и зашифрованные сигналы будут удалены, а пароль приложения — сброшен.",
-      "Сбросить всё",
+      "🗑️ Скинути пароль і дані?",
+      "Усі збережені та зашифровані сигнали буде видалено, а пароль застосунку — скинуто.",
+      "Скинути все",
       () => {
         safeRemove(KEYS.appLock);
         safeRemove(KEYS.blocks);
+        safeRemove(KEYS.blocksLegacyV2);
         safeRemove(KEYS.sig);
         safeRemove(KEYS.favs);
         safeRemove(KEYS.collapsed);
@@ -2690,13 +2746,13 @@
         document.getElementById("appContainer").style.display = "block";
         updateAppLockButtons();
         renderAll();
-        showToast("Пароль сброшен, загружены базовые сигналы");
+        showToast("Пароль скинуто, завантажено базові сигнали");
       }
     );
   });
 
   // ==========================================
-  // События основного интерфейса
+  // Події основного інтерфейсу
   // ==========================================
   document.getElementById("appKeyBtn").addEventListener("click", () => {
     if (isAppProtected()) openManageAppPasswordModal();
@@ -2726,14 +2782,14 @@
         count++;
       }
     });
-    if (count === 0) showToast("Нет открытых запароленных блоков");
+    if (count === 0) showToast("Немає відкритих запаролених блоків");
   });
 
   document.getElementById("btnClearAll").addEventListener("click", () => {
     openConfirmModal(
-      "🗑️ Очистить все сигналы?",
-      "Все блоки и все сигналы (включая защищённые) будут полностью удалены, чтобы вы могли создать свою таблицу заново.",
-      "Очистить всё",
+      "🗑️ Очистити всі сигнали?",
+      "Усі блоки та всі сигнали (включно із захищеними) буде повністю видалено, щоб ви могли створити свою таблицю з нуля.",
+      "Очистити все",
       () => {
         blocks = [];
         unlockedPasswords.clear();
@@ -2743,7 +2799,7 @@
         safeSave(KEYS.collapsed, []);
         persistAppState();
         renderAll();
-        showToast("Все сигналы очищены");
+        showToast("Усі сигнали очищено");
       }
     );
   });
@@ -2810,26 +2866,26 @@
   document.getElementById("hideDescsBtn").addEventListener("click", e => {
     const hidden = document.body.classList.toggle("hide-descs");
     e.currentTarget.classList.toggle("active", hidden);
-    e.currentTarget.textContent = hidden ? "👁️ Показать значения" : "👁️ Скрыть значения";
+    e.currentTarget.textContent = hidden ? "👁️ Показати значення" : "👁️ Приховати значення";
   });
 
   function updateCopyModeBtn() {
     document.getElementById("copyModeBtn").textContent = copyCodeOnly
-      ? "🏷️ Копировать: Только код"
-      : "📋 Копировать: Код — значение";
+      ? "🏷️ Копіювати: Тільки код"
+      : "📋 Копіювати: Код — значення";
   }
 
   document.getElementById("copyModeBtn").addEventListener("click", () => {
     copyCodeOnly = !copyCodeOnly;
     safeSave(KEYS.copyMode, copyCodeOnly ? "code" : "both");
     updateCopyModeBtn();
-    showToast(copyCodeOnly ? "Режим: копируется только код" : "Режим: код и значение");
+    showToast(copyCodeOnly ? "Режим: копіюється тільки код" : "Режим: код і значення");
   });
 
   document.getElementById("exportJsonBtn").addEventListener("click", openExportModal);
   document.getElementById("importJsonBtn").addEventListener("click", openImportModal);
 
-  // Настройки темы
+  // Налаштування теми
   document.getElementById("themeModeBtn").addEventListener("click", () => {
     const { r, g, b } = hexToRgb(config.bg);
     const isLight = getLuminance(r, g, b) > 0.55;
@@ -2854,10 +2910,10 @@
   document.getElementById("resetSettingsBtn").addEventListener("click", () => {
     config = { ...DEFAULT_CONFIG };
     applyTheme(config);
-    showToast("Тема сброшена");
+    showToast("Тему скинуто");
   });
 
-  // Горячие клавиши
+  // Гарячі клавіші
   document.addEventListener("keydown", e => {
     if (e.key === "Escape" && modalBackdrop.classList.contains("open")) {
       closeModal();
@@ -2879,7 +2935,7 @@
     }
   });
 
-  // Инициализация приложения
+  // Ініціалізація застосунку
   (function initApp() {
     applyTheme(config);
     updateCopyModeBtn();
@@ -2898,11 +2954,16 @@
     currentSig = savedSig || DEFAULT_SIG;
     document.getElementById("sigText").textContent = currentSig;
 
-    const savedBlocks = safeParse(KEYS.blocks, null);
-    if (Array.isArray(savedBlocks)) {
-      blocks = savedBlocks;
+    const savedBlocksV3 = safeParse(KEYS.blocks, null);
+    if (Array.isArray(savedBlocksV3)) {
+      blocks = savedBlocksV3;
     } else {
-      blocks = makeDefaultBlocks();
+      const legacyV2 = safeParse(KEYS.blocksLegacyV2, null);
+      if (Array.isArray(legacyV2)) {
+        blocks = migrateFromV2(legacyV2);
+      } else {
+        blocks = makeDefaultBlocks();
+      }
       safeSave(KEYS.blocks, blocks);
     }
 
