@@ -27,7 +27,7 @@ jobs:
 
       - name: Create Cordova project and disable splash
         run: |
-          cordova create my-app com.signcode.app SIGN.CONE
+          cordova create my-app com.signcode.app СИГНАЛИ
           cd my-app
           cordova platform add android
           cp ../index.html www/index.html
