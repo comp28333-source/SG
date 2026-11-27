@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ТАБЛИЦЯ СИГНАЛІВ</title>
+<title>Таблиця сигналів — БЛiК</title>
 <style>
   :root {
     --bg-color: #1e2024;
@@ -929,7 +929,7 @@
 <div class="container" id="appContainer">
   <header class="neu-extruded">
     <div class="sig-badge neu-pressed" id="sigBadge" title="Натисніть, щоб змінити СИГНАЛ">
-      <span id="sigText">СИГ: 47 &nbsp;|&nbsp; 160</span>
+      <span id="sigText">СИГНАЛ</span>
       <small>✎</small>
     </div>
 
@@ -942,7 +942,7 @@
       <button type="button" class="neu-btn" id="appKeyBtn" title="Встановити, змінити або зняти пароль на застосунок">🔑</button>
       <button type="button" class="neu-btn" id="appQuickLockBtn" style="display:none;" title="Заблокувати застосунок зараз">🔒</button>
       <button type="button" class="neu-btn" id="editModeBtn" title="Додавання, видалення, перейменування та захист блоків">📝 Редактор</button>
-      <button type="button" class="neu-btn" id="composerToggleBtn" title="Зібрати повідомлення з кількох сигналів">✏️ Набір</button>
+      <button type="button" class="neu-btn" id="composerToggleBtn" title="Зібрати повідомлення з кількох кодів">✏️ Набір</button>
       <button type="button" class="neu-btn" id="quizToggleBtn" title="Тренажер запам'ятовування сигналів">🧠 Тест</button>
       <button type="button" class="neu-btn" id="themeModeBtn" title="Перемкнути світлу/темну тему">🌓 Тема</button>
       <button type="button" class="neu-btn" id="settingsToggleBtn">⚙️ Налаштування</button>
@@ -960,7 +960,6 @@
       <button type="button" class="neu-btn" id="btnEdExport">💾 Експорт</button>
       <button type="button" class="neu-btn" id="btnEdImport">📂 Імпорт</button>
       <button type="button" class="neu-btn danger-btn" id="btnClearAll">🗑️ Очистити всі сигнали</button>
-      <button type="button" class="neu-btn" id="btnRestoreDefaults">↺ Відновити базові</button>
     </div>
   </section>
 
@@ -968,13 +967,13 @@
   <section class="composer-panel neu-extruded" id="composerPanel">
     <input type="text" id="composerInput" class="composer-input neu-pressed" placeholder="Натискайте на рядки таблиці нижче, щоб зібрати зведення...">
     <button type="button" class="neu-btn" id="copyComposerBtn">📋 Копіювати</button>
-    <button type="button" class="neu-btn" id="clearComposerBtn">✕ Очистити</button>
+    <button type="button" class="neu-btn" id="clearComposerBtn">✕ Очистить</button>
   </section>
 
   <!-- Тренажер (Тест знань) -->
   <section class="quiz-panel neu-extruded" id="quizPanel">
     <div class="quiz-top">
-      <strong style="color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.6px;">🧠 Тренажер сигналів</strong>
+      <strong style="color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.6px;">🧠 ТРЕНАЖЕР</strong>
       <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
         <span class="category-count neu-pressed" id="quizScore">Вірно: 0 / 0 | Серія: 0</span>
         <button type="button" class="neu-btn pill-btn" id="quizNextBtn">Наступний →</button>
@@ -1046,7 +1045,6 @@
   <main class="categories-grid" id="categoriesGrid"></main>
 </div>
 
-<!-- Без атрибута accept, щоб Android не блокував .json файли сірим -->
 <input type="file" id="importFileInput" class="hidden-file-input">
 
 <!-- Універсальне модальне вікно -->
@@ -1063,110 +1061,21 @@
 <div class="watermark">БЛiК</div>
 
 <script>
+  // Вшитий ключ шифрування за замовчуванням для експорту / імпорту
   const BUILTIN_EXPORT_KEY = "BLiK#Sig47!160$DefaultKey_2026";
-  const DEFAULT_SIG = "СИГ: 47 | 160";
-
-  const BASE_DATA = [
-    {
-      category: "ЗАГАЛЬНЕ",
-      items: [
-        { code: "160", desc: "Все спокійно!" },
-        { code: "1.6.0", desc: "В полоні! Кожна цифра говориться окремо, замість \"0\" назвати кількість підарів" }
-      ]
-    },
-    {
-      category: "ОБСТРІЛ",
-      items: [
-        { code: "30-70", desc: "Стрілецька" },
-        { code: "30-32", desc: "Гранатомет" },
-        { code: "30-33", desc: "Міномет" },
-        { code: "30-34", desc: "Танк" },
-        { code: "30-4*", desc: "Арта (*кількість)" },
-        { code: "30-36", desc: "РСВ" },
-        { code: "30-37", desc: "FPV" },
-        { code: "30-38", desc: "Скид" },
-        { code: "30-39", desc: "Скид ГАЗ" }
-      ]
-    },
-    {
-      category: "НАСТУП",
-      items: [
-        { code: "ВІТЕР 40-10", desc: "Піхота" },
-        { code: "40-20", desc: "Техніка (Танк, БМП, БТР)" },
-        { code: "40-30", desc: "Мотоцикл, БАП, Авто" },
-        { code: "ГРАД 40-50", desc: "Вогонь на ураження" },
-        { code: "ЕКВАТОР 50-70", desc: "Кругова оборона" }
-      ]
-    },
-    {
-      category: "ПОРАНЕНИЙ",
-      items: [
-        { code: "ВЕСЛО 15-15", desc: "300 Легкий" },
-        { code: "ЧОВЕН 15-20", desc: "300 Середній" },
-        { code: "БАРЖА 15-25", desc: "300 Важкий" },
-        { code: "КРАН 15-70", desc: "Потрібен евак." },
-        { code: "ГРАНІТ 15-90", desc: "200" }
-      ]
-    },
-    {
-      category: "БПЛА",
-      items: [
-        { code: "ЧАЙКА", desc: "ФПВ, Крило" },
-        { code: "СОВА", desc: "Розвідник, Зала, Мавік" },
-        { code: "СОКIЛ", desc: "Дружній борт" }
-      ]
-    },
-    {
-      category: "ТРАНСПОРТ",
-      items: [
-        { code: "ГУДОК 90-10", desc: "Авто" },
-        { code: "ПЕРСІК 90-20", desc: "БМП, БТР, МТЛБ" },
-        { code: "ГРАНАТ 90-30", desc: "Танк" }
-      ]
-    },
-    {
-      category: "ДОСТАВКА",
-      items: [
-        { code: "КЛЮЧ 10", desc: "Вода" },
-        { code: "КЛЮЧ 12", desc: "Їжа" },
-        { code: "КЛЮЧ 17", desc: "Наб. 7.62" },
-        { code: "КЛЮЧ 18", desc: "Гранати" },
-        { code: "КЛЮЧ 22", desc: "Заряди до РПГ" },
-        { code: "ІЗОЛЕНТА 33", desc: "Потрібна аптечка (перев'язувальні матеріали)" },
-        { code: "ІЗОЛЕНТА 353", desc: "Потрібна аптечка (пілпак)" },
-        { code: "ДРОВА 90", desc: "Паливо" }
-      ]
-    },
-    {
-      category: "ЛЮДИ",
-      items: [
-        { code: "ЖУРАВЕЛЬ", desc: "СВОЇ, ДРУЗІ" },
-        { code: "ВОРОНА", desc: "ВОРОГ" }
-      ]
-    },
-    {
-      category: "ПЕРЕМІЩЕННЯ",
-      items: [
-        { code: "ГАВАНЬ", desc: "Точка висадки / посадки" },
-        { code: "РИБАЛКА", desc: "Зробити рух (вказати точку)" },
-        { code: "ВЕРБА", desc: "Рух почав" },
-        { code: "ПЕЛЕНА", desc: "Знайти найближче укриття, маскуватися" },
-        { code: "БУЛЬВАР", desc: "Знаходжусь (вказуємо номер / назву точки)" },
-        { code: "ТУМАН", desc: "Повернутися назад, стартове положення" },
-        { code: "ПРИСТАНЬ", desc: "Кінцева точка / успіх переміщення" }
-      ]
-    }
-  ];
+  // Стартовий пароль на вхід у застосунок ("" = без пароля; впишіть свій у лапки за потреби)
+  const DEFAULT_APP_PASSWORD = "";
+  const DEFAULT_SIG = "СИГНАЛ";
 
   const KEYS = {
     theme: "blik_signals_theme",
-    blocksLegacyV2: "blik_signals_blocks_v2",
-    blocks: "blik_signals_blocks_v3",
-    favs: "blik_signals_favs_v1",
-    sig: "blik_signals_sig_v1",
+    blocks: "blik_signals_empty_blocks_v1",
+    favs: "blik_signals_empty_favs_v1",
+    sig: "blik_signals_empty_sig_v1",
     copyMode: "blik_signals_copymode_v1",
-    collapsed: "blik_signals_collapsed_v1",
-    appLock: "blik_signals_applock_v1"
+    collapsed: "blik_signals_empty_collapsed_v1",
+    appLock: "blik_signals_empty_applock_v1",
+    appLockInit: "blik_signals_empty_applock_init_v1"
   };
 
   const DEFAULT_CONFIG = {
@@ -1322,9 +1231,7 @@
     return payload;
   }
 
-  // Надійне збереження файлу на Android, iOS і ПК
   async function saveEncryptedFile(content, filename) {
-    // 1. Нативний діалог вибору папки (ПК Chrome/Edge)
     if (window.showSaveFilePicker) {
       try {
         const handle = await window.showSaveFilePicker({
@@ -1340,7 +1247,6 @@
       }
     }
 
-    // 2. Класичне завантаження через Blob (додаємо в DOM і відкладаємо revokeObjectURL на 60 сек)
     try {
       const blob = new Blob([content], { type: "application/octet-stream" });
       const url = URL.createObjectURL(blob);
@@ -1357,7 +1263,6 @@
       return "downloaded";
     } catch (_) {}
 
-    // 3. Резерв через Data URI
     try {
       const dataUrl = "data:application/octet-stream;charset=utf-8," + encodeURIComponent(content);
       const a = document.createElement("a");
@@ -1407,68 +1312,6 @@
   // ==========================================
   function uid() {
     return "id_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-  }
-
-  function makeDefaultBlocks() {
-    return BASE_DATA.map(g => ({
-      id: uid(),
-      category: g.category,
-      items: g.items.map(it => ({ id: uid(), code: it.code, desc: it.desc })),
-      lockHash: null,
-      salt: null,
-      encrypted: null
-    }));
-  }
-
-  function migrateFromV2(v2Blocks) {
-    const catMap = {
-      "ОБЩЕЕ": "ЗАГАЛЬНЕ",
-      "ОБСТРЕЛ": "ОБСТРІЛ",
-      "НАСТУПЛЕНИЕ": "НАСТУП",
-      "РАНЕНЫЙ": "ПОРАНЕНИЙ",
-      "ПЕРЕМЕЩЕНИЕ": "ПЕРЕМІЩЕННЯ"
-    };
-    const descMap = {
-      "Стрелковое": "Стрілецьке",
-      "Гранотомет": "Гранатомет",
-      "Миномет": "Міномет",
-      "Арта (*кол-во)": "Арта (*кількість)",
-      "300 Важкийй": "300 Важкий",
-      "Потрібен євак.": "Потрібен евак.",
-      "Гранаты": "Гранати",
-      "Заряды к РПГ": "Заряди до РПГ",
-      "Потрібна аптечка (перевязочні матераалы,)": "Потрібна аптечка (перев'язувальні матеріали)",
-      "Точка высадки / посадки": "Точка висадки / посадки",
-      "Зробити рух ( вказати точку )": "Зробити рух (вказати точку)",
-      "Знахожусь ( вказуем номер / назву точки )": "Знаходжусь (вказуємо номер / назву точки)",
-      "Повернуться назад, стартове положення": "Повернутися назад, стартове положення"
-    };
-
-    const migrated = v2Blocks.map(b => ({
-      ...b,
-      category: catMap[b.category] || b.category,
-      items: Array.isArray(b.items)
-        ? b.items.map(it => ({
-            ...it,
-            code: it.code === "Экватор 50-70" ? "Екватор 50-70" : it.code,
-            desc: descMap[it.desc] || it.desc
-          }))
-        : []
-    }));
-
-    const hasGeneral = migrated.some(b => b.category === "ЗАГАЛЬНЕ");
-    if (!hasGeneral && migrated.length > 0) {
-      const gen = BASE_DATA[0];
-      migrated.unshift({
-        id: uid(),
-        category: gen.category,
-        items: gen.items.map(it => ({ id: uid(), code: it.code, desc: it.desc })),
-        lockHash: null,
-        salt: null,
-        encrypted: null
-      });
-    }
-    return migrated;
   }
 
   function safeParse(key, fallback) {
@@ -1670,7 +1513,7 @@
       document.execCommand("copy");
       ok();
     } catch (_) {
-      showToast("Не удалось скопировать");
+      showToast("Не вдалося скопировать");
     }
     document.body.removeChild(ta);
   }
@@ -1807,6 +1650,7 @@
       currentMasterSalt = randomSalt();
       currentMasterHash = sha256(`${currentMasterSalt}:${p1.value}`);
       currentMasterPassword = p1.value;
+      safeSave(KEYS.appLockInit, "1");
       persistAppState();
       updateAppLockButtons();
       closeModal();
@@ -1866,6 +1710,7 @@
       currentMasterPassword = null;
       currentMasterSalt = null;
       currentMasterHash = null;
+      safeSave(KEYS.appLockInit, "1");
       persistAppState();
       updateAppLockButtons();
       closeModal();
@@ -1930,7 +1775,7 @@
     currentMasterSalt = lockObj.salt;
     currentMasterHash = lockObj.hash;
     currentSig = typeof payload.sig === "string" ? payload.sig : DEFAULT_SIG;
-    blocks = Array.isArray(payload.blocks) ? payload.blocks : makeDefaultBlocks();
+    blocks = Array.isArray(payload.blocks) ? payload.blocks : [];
     favorites = new Set(Array.isArray(payload.favorites) ? payload.favorites : []);
 
     document.getElementById("sigText").textContent = currentSig;
@@ -1984,7 +1829,7 @@
     modalBody.innerHTML = `
       <div class="modal-field">
         <label for="blockNameModal">Назва блоку</label>
-        <input type="text" id="blockNameModal" class="modal-input neu-pressed" value="${existingBlock ? escapeHtml(existingBlock.category) : ""}" placeholder="Напр. ЗВ'ЯЗОК або СПОСТЕРЕЖЕННЯ">
+        <input type="text" id="blockNameModal" class="modal-input neu-pressed" value="${existingBlock ? escapeHtml(existingBlock.category) : ""}" placeholder="Напр. ЗВ'ЯЗОК або ОБСТРІЛ">
       </div>
     `;
     modalHint.textContent = "";
@@ -2039,7 +1884,7 @@
         </select>
       </div>
       <div class="modal-field">
-        <label for="sigCodeInput">Код / Позивний</label>
+        <label for="sigCodeInput">КОД / СИГНАЛ</label>
         <input type="text" id="sigCodeInput" class="modal-input neu-pressed" value="${existingItem ? escapeHtml(existingItem.code) : ""}" placeholder="Напр. МАЯК 10">
       </div>
       <div class="modal-field">
@@ -2503,17 +2348,15 @@
       const empty = document.createElement("div");
       empty.className = "empty-state neu-extruded";
       empty.innerHTML = `
-        <div style="font-size:1.1em; font-weight:700; color:var(--text-color);">Список сигналів повністю порожній</div>
-        <div>Створіть свій перший блок або імпортуйте зашифровану таблицю.</div>
+        <div style="font-size:1.1em; font-weight:700; color:var(--text-color);">Таблиця сигналів порожня</div>
+        <div>Створіть свій перший блок або імпортуйте зашифрований файл / текст.</div>
         <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
           <button type="button" class="neu-btn success-btn" id="emptyNewBlock">➕ Створити перший блок</button>
           <button type="button" class="neu-btn" id="emptyImport">📂 Імпорт</button>
-          <button type="button" class="neu-btn" id="emptyRestore">↺ Повернути базові сигнали</button>
         </div>
       `;
       empty.querySelector("#emptyNewBlock").onclick = () => openBlockModal(null);
       empty.querySelector("#emptyImport").onclick = openImportModal;
-      empty.querySelector("#emptyRestore").onclick = restoreDefaultBlocks;
       grid.appendChild(empty);
       updateToggleAllBtn();
       return;
@@ -2739,25 +2582,6 @@
     renderGrid();
   }
 
-  function restoreDefaultBlocks() {
-    openConfirmModal(
-      "↺ Відновити стандартні сигнали?",
-      "Поточні блоки буде замінено на початкові 9 блоків (ЗАГАЛЬНЕ, ОБСТРІЛ, НАСТУП, ПОРАНЕНИЙ тощо).",
-      "Відновити",
-      () => {
-        blocks = makeDefaultBlocks();
-        unlockedPasswords.clear();
-        favorites.clear();
-        collapsedCats.clear();
-        activeCategory = "ALL";
-        safeSave(KEYS.collapsed, []);
-        persistAppState();
-        renderAll();
-        showToast("Базові сигнали відновлено");
-      }
-    );
-  }
-
   // ==========================================
   // Тренажер (Квіз — без підказок категорій)
   // ==========================================
@@ -2848,15 +2672,15 @@
       () => {
         safeRemove(KEYS.appLock);
         safeRemove(KEYS.blocks);
-        safeRemove(KEYS.blocksLegacyV2);
         safeRemove(KEYS.sig);
         safeRemove(KEYS.favs);
         safeRemove(KEYS.collapsed);
+        safeSave(KEYS.appLockInit, "1");
         currentMasterPassword = null;
         currentMasterSalt = null;
         currentMasterHash = null;
         currentSig = DEFAULT_SIG;
-        blocks = makeDefaultBlocks();
+        blocks = [];
         favorites = new Set();
         collapsedCats = new Set();
         persistAppState();
@@ -2865,7 +2689,7 @@
         document.getElementById("appContainer").style.display = "block";
         updateAppLockButtons();
         renderAll();
-        showToast("Пароль скинуто, завантажено базові сигнали");
+        showToast("Пароль і дані скинуто");
       }
     );
   });
@@ -2907,7 +2731,7 @@
   document.getElementById("btnClearAll").addEventListener("click", () => {
     openConfirmModal(
       "🗑️ Очистити всі сигнали?",
-      "Усі блоки та всі сигнали (включно із захищеними) буде повністю видалено, щоб ви могли створити свою таблицю з нуля.",
+      "Усі блоки та всі сигнали (включно із захищеними) буде повністю видалено.",
       "Очистити все",
       () => {
         blocks = [];
@@ -2922,8 +2746,6 @@
       }
     );
   });
-
-  document.getElementById("btnRestoreDefaults").addEventListener("click", restoreDefaultBlocks);
 
   document.getElementById("catPills").addEventListener("click", e => {
     const btn = e.target.closest("[data-cat]");
@@ -3059,7 +2881,26 @@
     applyTheme(config);
     updateCopyModeBtn();
 
-    const lockObj = safeParse(KEYS.appLock, null);
+    let lockObj = safeParse(KEYS.appLock, null);
+    if (!lockObj && DEFAULT_APP_PASSWORD && !localStorage.getItem(KEYS.appLockInit)) {
+      const salt = randomSalt();
+      const hash = sha256(`${salt}:${DEFAULT_APP_PASSWORD}`);
+      const initBlocks = safeParse(KEYS.blocks, null) || [];
+      const initSig = localStorage.getItem(KEYS.sig) || DEFAULT_SIG;
+      const initFavs = safeParse(KEYS.favs, []);
+      const payload = encryptObject(
+        { sig: initSig, blocks: initBlocks, favorites: initFavs },
+        DEFAULT_APP_PASSWORD,
+        salt
+      );
+      lockObj = { hash, salt, payload };
+      safeSave(KEYS.appLock, lockObj);
+      safeSave(KEYS.appLockInit, "1");
+      safeRemove(KEYS.blocks);
+      safeRemove(KEYS.sig);
+      safeRemove(KEYS.favs);
+    }
+
     if (lockObj && lockObj.hash && lockObj.salt && lockObj.payload) {
       currentMasterHash = lockObj.hash;
       currentMasterSalt = lockObj.salt;
@@ -3073,16 +2914,11 @@
     currentSig = savedSig || DEFAULT_SIG;
     document.getElementById("sigText").textContent = currentSig;
 
-    const savedBlocksV3 = safeParse(KEYS.blocks, null);
-    if (Array.isArray(savedBlocksV3)) {
-      blocks = savedBlocksV3;
+    const savedBlocks = safeParse(KEYS.blocks, null);
+    if (Array.isArray(savedBlocks)) {
+      blocks = savedBlocks;
     } else {
-      const legacyV2 = safeParse(KEYS.blocksLegacyV2, null);
-      if (Array.isArray(legacyV2)) {
-        blocks = migrateFromV2(legacyV2);
-      } else {
-        blocks = makeDefaultBlocks();
-      }
+      blocks = [];
       safeSave(KEYS.blocks, blocks);
     }
 
